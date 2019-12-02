@@ -441,12 +441,12 @@ async function getRandomContent(numberOfPosts) {
 
     let endResult = [];
     if (keys.length > numberOfPosts) {
-        for (let i=0; i<numberOfPosts; i++) {
+        for (let i = 0; i < numberOfPosts; i++) {
             let index = Math.floor(Math.random() * keys.length - 1);
             endResult.push(content.data.result[keys[index]]);
         }
     } else {
-        for (let i=0; i<keys.length; i++) {
+        for (let i = 0; i < keys.length; i++) {
             endResult.push(content.data.result[keys[i]]);
         }
     }
@@ -454,10 +454,10 @@ async function getRandomContent(numberOfPosts) {
     return endResult;
 }
 
-function generateDOMPost(postObject) {
+function generateDOMPost(postObject, index) {
     return $(`
-        <div class="column">
-            <div class="card">
+        <div id="post-${index}" class="column hidden">
+            <div id="post-${index}-card" class="card clickable">
               <header class="card-header">
                     <div class="level">
                         <div class="level-left">
@@ -473,22 +473,41 @@ function generateDOMPost(postObject) {
                   ${postObject.content}
                 </div>
               </div>
-              <footer class="card-footer">
-<!--                <a href="#" class="card-footer-item">Save</a>-->
-<!--                <a href="#" class="card-footer-item">Edit</a>-->
-<!--                <a href="#" class="card-footer-item">Delete</a>-->
-              </footer>
             </div>
         </div>
     `)
 }
 
+
+function autoHeightAnimate(element, time, callback) {
+    // citation: https://codepen.io/JTParrett/pen/CAglw
+    let autoHeight = element.css('height', 'auto').height(); // Get Auto Height
+    element.height(0); // Reset to Default Height
+    element.show(1, function () {
+        element.stop().animate({height: autoHeight, opacity: 1}, time, callback)
+    });
+}
+
+
+// function animatePosts(index, total) {
+//
+// }
+
+
 async function loadContent() {
     let postObjects = await getRandomContent();
     let recentPostContainer = $("#random-posts-container");
-    for (let i = 0; i<postObjects.length; i++) {
-        let currentPost = generateDOMPost(postObjects[i]);
+    for (let i = 0; i < postObjects.length; i++) {
+        let currentPost = generateDOMPost(postObjects[i], i);
         recentPostContainer.append(currentPost);
+    }
+    $(".card").css("box-shadow", "0px 0px");
+    for (let i = 0; i < postObjects.length; i++) {
+        autoHeightAnimate($(`#post-${i}`), 650 + (500 * i), function () {
+            $(`#post-${i}-card`).animate({boxShadow: "0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1)"}, function() {
+                $(`#post-${i}-card`).removeAttr("style");
+            });
+        });
     }
 }
 

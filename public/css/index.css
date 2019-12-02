@@ -1,8 +1,13 @@
 .hidden {
-    display: none;
+    opacity: 0;
 }
 
 .disabled {
     opacity: .3;
     pointer-events: none;
+}
+
+.clickable:hover {
+    cursor: pointer;
+    box-shadow: 0 0 3px rgba(81, 203, 238, 1);
 }

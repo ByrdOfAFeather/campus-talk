@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="23a2d7f6-1d78-4dbf-b785-17f6c63e82b6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/account.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/account.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/private.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/private.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
     </list>
@@ -90,7 +89,7 @@
       <workItem from="1573659009971" duration="17000" />
       <workItem from="1574363303799" duration="1909000" />
       <workItem from="1575128964047" duration="3726000" />
-      <workItem from="1575132790040" duration="26965000" />
+      <workItem from="1575132790040" duration="29292000" />
     </task>
     <task id="LOCAL-00001" summary="init back-end &amp; recommender system">
       <created>1572533560320</created>
@@ -113,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575258185059</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added Delete Functions">
+      <created>1575324499374</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1575324499375</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,7 +141,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init back-end &amp; recommender system" />
     <MESSAGE value="Add content/comment/user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add content/comment/user" />
+    <MESSAGE value="Added Delete Functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Delete Functions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="618" y="270" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1575131521028">
@@ -146,10 +153,11 @@
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="771" y="261" width="424" height="582" key="#com.intellij.ide.macro.MacrosDialog/56.27.1864.1053@56.27.1864.1053" timestamp="1575131428665" />
-    <state x="2728" y="63" width="989" height="978" key="CommitChangelistDialog2" timestamp="1575258184887">
-      <screen x="0" y="27" width="4480" height="1053" />
+    <state x="574" y="63" width="1101" height="978" key="CommitChangelistDialog2" timestamp="1575324499201">
+      <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="2728" y="63" width="989" height="978" key="CommitChangelistDialog2/0.27.4480.1053@0.27.4480.1053" timestamp="1575258184887" />
+    <state x="574" y="63" width="1101" height="978" key="CommitChangelistDialog2/56.27.1864.1053@56.27.1864.1053" timestamp="1575324499201" />
     <state width="1841" height="378" key="GridCell.Tab.0.bottom" timestamp="1575131521930">
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
@@ -170,10 +178,11 @@
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="477" y="188" key="SettingsEditor/56.27.1864.1053@56.27.1864.1053" timestamp="1575129177731" />
-    <state x="2823" y="285" width="800" height="534" key="Vcs.Push.Dialog.v2" timestamp="1575258187528">
-      <screen x="0" y="27" width="4480" height="1053" />
+    <state x="1231" y="285" width="517" height="532" key="Vcs.Push.Dialog.v2" timestamp="1575324501958">
+      <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="2823" y="285" width="800" height="534" key="Vcs.Push.Dialog.v2/0.27.4480.1053@0.27.4480.1053" timestamp="1575258187528" />
+    <state x="1231" y="285" width="517" height="532" key="Vcs.Push.Dialog.v2/56.27.1864.1053@56.27.1864.1053" timestamp="1575324501958" />
     <state x="626" y="133" width="724" height="840" key="find.popup" timestamp="1575220225932">
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
