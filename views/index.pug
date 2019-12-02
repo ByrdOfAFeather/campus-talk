@@ -2,6 +2,7 @@ doctype html
 head
     title Campus Talk
     link(rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css')
+    link(rel='stylesheet' type='text/css' href='css/index.css')
     script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
     script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js")
     script(type="text/javascript" src="js/index.js")
@@ -22,15 +23,23 @@ section.section
 section.section
     // Categories section
     .container
-        .columns
-            .column.is-12
+        .columns.is-multiline.is-centered.is-vcentered
+            .column.is-12.has-text-centered
                 p What would you look at today,
-                p#username-greeting
-            .column
-                p 10 most recent posts go here
+                .columns.is-centered.is-vcentered
+                    .column.is-narrow
+                        p#username-greeting
+                    .column.is-narrow.hidden#create-account-button-container
+                        button#create-account-button.button Create Account
+                    .column.is-narrow.hidden#login-button-container
+                        button#login-button.button Login
+            .column.has-text-centered
+                #random-posts-container.columns
                 button.button Random Post
     .container
         button#new-post-button.button Create New Post
 
 section.section
     .container#new-post-container
+
+script(type="text/javascript" src="js/animations.js")

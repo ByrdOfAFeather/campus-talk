@@ -1,5 +1,5 @@
 function cleanUpModal() {
-    $("#modal-content-container").remove();
+    $("#modal-content-container").empty();
     $("#generic-input-modal").removeClass("is-active");
 }
 
@@ -32,7 +32,7 @@ function createAccountPopUp() {
                 <button id="cancel-button" class="button">Cancel</button>
             </div>
             <div class="level-right">
-                <button id="submit-button" class="button is-inactive">Submit</button>
+                <button id="submit-button" class="button disabled">Submit</button>
             </div>
         </div>
     </form>
@@ -87,6 +87,8 @@ function createAccountPopUp() {
                             headers: {
                                 "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
                             },
+                        }).then((_) => {
+                            window.location.reload();
                         });
                     },
                     error: function (result) {
@@ -107,10 +109,10 @@ function createAccountPopUp() {
     let updateIfValid = () => {
         let valid = validate();
         if (valid) {
-            $("#submit-button").removeClass("is-inactive");
+            $("#submit-button").removeClass("disabled");
             $("#submit-button").on("click", submitNewAccount);
         } else {
-            $("#submit-button").addClass("is-inactive");
+            $("#submit-button").addClass("disabled");
             $("#submit-button").off();
         }
     };
@@ -118,7 +120,9 @@ function createAccountPopUp() {
     form.on('input', "#username-input", updateIfValid);
     form.on('input', "#password-input", updateIfValid);
     form.on('input', "#email-input", updateIfValid);
-    modal.show();
+
+    $("#cancel-button").on("click", cleanUpModal);
+    modal.addClass("is-active");
 }
 
 
@@ -154,8 +158,10 @@ async function getCommentObjectsFromPost(postID) {
     let comments = response.data.result;
 
     let commentObjects = [];
-    for (let i = 0; i<comments.length; i++) {
+    for (let i = 0; i < comments.length; i++) {
         let curRequest = await axios.get(`http://localhost:3000/private/comments/${comments[i]}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+        let result = curRequest.data.result;
+        result["id"] = comments[i];
         commentObjects.push(curRequest.data.result);
     }
 
@@ -167,22 +173,139 @@ async function getCommentObjectsFromUser(userID) {
     let comments = response.data.result;
 
     let commentObjects = [];
-    for (let i = 0; i<comments.length; i++) {
+    for (let i = 0; i < comments.length; i++) {
         let curRequest = await axios.get(`http://localhost:3000/private/comments/${comments[i]}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+        let result = curRequest.data.result;
+        result["id"] = comments[i];
         commentObjects.push(curRequest.data.result);
     }
 
     return commentObjects;
 }
 
+async function deleteComment(commentID) {
+    let commentObjectRequest = await axios.get(`http://localhost:3000/private/comments/${commentID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    let commentObject = commentObjectRequest.data.result;
 
+    let comments = await getPostComments(commentObject.postID);
 
+    let foundIndexPosts = null;
+    comments.find(function (value, index) {
+        if (`${value}` === `${commentID}`) {
+            foundIndexPosts = index;
+            return true;
+        } else {
+            return false;
+        }
+    });
+    if (foundIndexPosts !== null) {
+        comments.splice(foundIndexPosts, 1);
+    }
 
+    await axios.post(`http://localhost:3000/private/posts/${commentObject.postID}/comments`, {
+        "data": comments,
+    }, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("apiKey")
+        }
+    });
+
+    let userComments = await getUserPosts(commentObject.author);
+
+    let foundIndex = null;
+    userComments.find(function (value, index) {
+        if (`${value}` === `${commentID}`) {
+            foundIndex = index;
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    if (foundIndex !== null) {
+        userComments.splice(foundIndex, 1);
+    }
+
+    await axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/postsCommentedOn`, {
+        "data": userComments,
+    }, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("apiKey")
+        }
+    });
+
+    let deleteRequest = await axios.delete(`http://localhost:3000/private/comments/${commentID}`,
+        {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+}
+
+async function deleteCommentsFromPost(commentIDs) {
+    for (let i = 0; i < commentIDs.length; i++) {
+        let currentCommentObjectRequest = await axios.get(`http://localhost:3000/private/comments/${commentIDs[i]}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+        let currentCommentObject = currentCommentObjectRequest.data.result;
+        let userComments = await getUserPosts(commentObject.author);
+
+        let foundIndex = null;
+        userComments.find(function (value, index) {
+            if (`${value}` === `${commentIDs[i]}`) {
+                foundIndex = index;
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        if (foundIndex !== null) {
+            userComments.splice(foundIndex, 1);
+        }
+
+        await axios.post(`http://localhost:3000/private/users/${currentCommentObject.author}/postsCommentedOn`, {
+            "data": userComments,
+        }, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("apiKey")
+            }
+        });
+
+        let deleteRequest = await axios.delete(`http://localhost:3000/private/comments/${commentID}`,
+            {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    }
+}
+
+async function deletePost(postID) {
+    let postObjectRequest = axios.get(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    let postObject = postObjectRequest.data.result;
+
+    await deleteCommentsFromPost(postObject.comments);
+
+    let currentUserObjectRequest = await axios.get(`http://localhost:3000/private/users/${localStorage.getItem("userID")}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    let currentUserObject = currentUserObjectRequest.data.result;
+    let userPosts = await getUserPosts(currentUserObject.posts);
+
+    let foundIndex = null;
+    userPosts.find(function (value, index) {
+        if (`${value}` === `${postID}`) {
+            foundIndex = index;
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    await axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/posts`, {
+        "data": userPosts,
+    }, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("apiKey")
+        }
+    });
+
+    let deleteRequest = await axios.delete(`http://localhost:3000/private/comments/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+}
 
 async function createNewComment() {
     //TODO ACTUALLY GET INPUT
-    let postID = 52356;
-    let comment = "";
+    let postID = 58532;
+    let comment = "This is a comment";
     let id = Math.floor(Math.random() * 100000);
 
     let result = await axios.post(`http://localhost:3000/private/comments/${id}/`, {
@@ -202,10 +325,8 @@ async function createNewComment() {
         let comments = await getUserComments(localStorage.getItem("userID"));
         let commentsViaPosts = await getPostComments(postID);
 
-        comments.push(id);
-        commentsViaPosts.push(id);
         axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/postsCommentedOn`, {
-            "data": comments,
+            "data": id,
             type: "merge"
         }, {
             headers: {
@@ -214,7 +335,7 @@ async function createNewComment() {
         });
 
         axios.post(`http://localhost:3000/private/posts/${postID}/comments`, {
-            "data": commentsViaPosts,
+            "data": id,
             type: "merge"
         }, {
             headers: {
@@ -225,10 +346,9 @@ async function createNewComment() {
 }
 
 
-
 function createNewPost() {
     let form = $(`
-            <form id="new-post-form" class="form hidden" onsubmit="return false;">
+            <form id="new-post-form" class="form" onsubmit="return false;">
                 <div class="field">
                     <label class="label">Post Title</label>
                     <div class="control">
@@ -313,11 +433,83 @@ function createNewPost() {
     });
 }
 
+async function getRandomContent(numberOfPosts) {
+    let content = await axios.get("http://localhost:3000/private/posts", {
+        headers: {"Authorization": `Bearer ${localStorage.getItem("apiKey")}`},
+    });
+    let keys = Object.keys(content.data.result);
+
+    let endResult = [];
+    if (keys.length > numberOfPosts) {
+        for (let i=0; i<numberOfPosts; i++) {
+            let index = Math.floor(Math.random() * keys.length - 1);
+            endResult.push(content.data.result[keys[index]]);
+        }
+    } else {
+        for (let i=0; i<keys.length; i++) {
+            endResult.push(content.data.result[keys[i]]);
+        }
+    }
+
+    return endResult;
+}
+
+function generateDOMPost(postObject) {
+    return $(`
+        <div class="column">
+            <div class="card">
+              <header class="card-header">
+                    <div class="level">
+                        <div class="level-left">
+                            <p class="card-header-title">${postObject.title}</p>
+                        </div>
+                        <div class="level-right">
+                            ${localStorage.getItem("userID") === postObject.author ? `<button class="delete"></button>` : ``}
+                        </div>
+                    </div>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  ${postObject.content}
+                </div>
+              </div>
+              <footer class="card-footer">
+<!--                <a href="#" class="card-footer-item">Save</a>-->
+<!--                <a href="#" class="card-footer-item">Edit</a>-->
+<!--                <a href="#" class="card-footer-item">Delete</a>-->
+              </footer>
+            </div>
+        </div>
+    `)
+}
+
+async function loadContent() {
+    let postObjects = await getRandomContent();
+    let recentPostContainer = $("#random-posts-container");
+    for (let i = 0; i<postObjects.length; i++) {
+        let currentPost = generateDOMPost(postObjects[i]);
+        recentPostContainer.append(currentPost);
+    }
+}
+
 
 $(document).ready(async function () {
     $("#new-post-button").on("click", createNewPost);
 
     // Load in the username or guest
-    let innerTextGreeting = localStorage.getItem("apiKey").length !== null ? await getUserName() : `Guest${Math.floor(Math.random() * 1000)}`;
-    $("#username-greeting").text(innerTextGreeting);
+    let isLoggedIn = localStorage.getItem("apiKey");
+    if (isLoggedIn) {
+        let innerTextGreeting = await getUserName();
+        $("#username-greeting").text(innerTextGreeting);
+        loadContent();
+    } else {
+        let innerTextGreeting = `Guest${Math.floor(Math.random() * 1000)}`;
+        $("#username-greeting").text(innerTextGreeting);
+
+        let createAccountButton = $("#create-account-button");
+        createAccountButton.on("click", createAccountPopUp);
+
+        $("#create-account-button-container").show();
+        $("#login-button-container").show();
+    }
 });
