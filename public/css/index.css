@@ -11,3 +11,7 @@
     cursor: pointer;
     box-shadow: 0 0 3px rgba(81, 203, 238, 1);
 }
+
+.gone {
+    display: none;
+}

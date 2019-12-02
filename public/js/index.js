@@ -387,7 +387,8 @@ function createNewPost() {
     };
 
     $("#post-cancel").on("click", function () {
-        newPostContainer.remove();
+        newPostContainer.empty();
+        newPostContainer.hide();
     });
 
     $("#post-submit").on("click", async function () {
@@ -431,6 +432,8 @@ function createNewPost() {
             //TODO ERROR
         }
     });
+
+    newPostContainer.slideDown(500);
 }
 
 async function getRandomContent(numberOfPosts) {

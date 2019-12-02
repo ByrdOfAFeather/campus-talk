@@ -20,27 +20,30 @@ section.section
             .column.is-12.has-text-centered
                 h1.title Campus - Talk
             .column.has-text-centered
-                p The anonymous chat platform
+                h2.subtitle The anonymous chat platform
 section.section
     // Categories section
     .container
         .columns.is-multiline.is-centered.is-vcentered
             .column.is-12.has-text-centered
-                p What would you look at today,
-                .columns.is-centered.is-vcentered
-                    .column.is-narrow
+                p.has-text-gray What would you look at today,
+                .columns.is-centered.is-vcentered.has-text-centered
+                    .column.is-narrow.has-text-centered
                         p#username-greeting
-                    .column.is-narrow.hidden#create-account-button-container
+                    .column.is-narrow.gone#create-account-button-container
                         button#create-account-button.button Create Account
-                    .column.is-narrow.hidden#login-button-container
+                    .column.is-narrow.gone#login-button-container
                         button#login-button.button Login
             .column.has-text-centered
                 #random-posts-container.columns
-                button.button Random Post
-    .container
-        button#new-post-button.button Create New Post
 
 section.section
-    .container#new-post-container
+    .container
+        .columns.is-centered.is-vcentered
+            .column.has-text-centered
+                button#new-post-button.button Create New Post
+
+section.section
+    .container.gone#new-post-container
 
 script(type="text/javascript" src="js/animations.js")
