@@ -1,2 +1,77 @@
 {
+  "users": {
+    "9439": {
+      "username": "adsf",
+      "posts": [
+        52356
+      ],
+      "likedPosts": [],
+      "postsCommentedOn": [
+        92906,
+        41995
+      ],
+      "numberOfLikes": 0
+    },
+    "34577": {
+      "username": "adsf",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
+    "37760": {
+      "username": "adsf",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
+    "76147": {
+      "username": "adsf",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    }
+  },
+  "posts": {
+    "52356": {
+      "title": "This is a test",
+      "content": "ta",
+      "author": "9439",
+      "date": "Sun Dec 01 2019 22:31:36 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
+      "comments": [
+        92906,
+        41995
+      ],
+      "usersWhoLikedThePost": []
+    }
+  },
+  "comments": {
+    "41995": {
+      "postID": 52356,
+      "author": "9439",
+      "date": "Sun Dec 01 2019 22:33:47 GMT-0500 (Eastern Standard Time)",
+      "comment": ""
+    },
+    "69650": {
+      "postID": 52356,
+      "author": "9439",
+      "date": "Sun Dec 01 2019 22:32:46 GMT-0500 (Eastern Standard Time)",
+      "comment": ""
+    },
+    "80013": {
+      "postID": 52356,
+      "author": "9439",
+      "date": "Sun Dec 01 2019 22:32:14 GMT-0500 (Eastern Standard Time)",
+      "comment": ""
+    },
+    "92906": {
+      "postID": 52356,
+      "author": "9439",
+      "date": "Sun Dec 01 2019 22:33:36 GMT-0500 (Eastern Standard Time)",
+      "comment": ""
+    }
+  }
 }

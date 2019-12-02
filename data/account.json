@@ -1,2 +1,28 @@
 {
+  "users": {
+    "asdf": {
+      "passwordHash": "$2b$10$86j.8TQKjC6/tgAT/KEYUe3EynxBj.xaWepxx383LD6zvkfvmNyQe"
+    },
+    "tester": {
+      "passwordHash": "$2b$10$1h/xv22nfDRq0Cx7cIsk8udpqBhm92V97HmyIDCFFiUPYZaxlwzlu"
+    },
+    "death": {
+      "passwordHash": "$2b$10$E5XLcjQfzVsx7lxdBV3ja.lyGR0t7apjm68O.czPG0bwtocE4wDfi"
+    },
+    "buhr": {
+      "passwordHash": "$2b$10$oVj2dNoRsm1sEF7iSXQWne9EPRxARpzAJgW1acv203IGm0Acb7qZS"
+    },
+    "okay then": {
+      "passwordHash": "$2b$10$GRzOc6hKCe2rXAWreAGXSOIicyrnv3u.3EewpIc5cS4QtLpIVPHqS"
+    },
+    "this": {
+      "passwordHash": "$2b$10$d64Z2qoR7V7KfIlL8TjfKOOvZyBMuo56zZE7/ZK46QqILJRXhGx8W"
+    },
+    "new account": {
+      "passwordHash": "$2b$10$tsh7taL7ZbSJ.JqQHy9d8uo6rLER6FiYhKl7OXpcrIMBtxcQfjBce"
+    },
+    "adsf": {
+      "passwordHash": "$2b$10$bVGWjpgL971UG9Bt3GyPw.6hGBVmmorZfb2N1Tqyr5n2efWybRnPy"
+    }
+  }
 }

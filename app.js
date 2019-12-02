@@ -39,5 +39,6 @@ files.forEach(file => {
   app.use(router.prefix || '/', router.router);
   debugAutoWire(`registered '${file}' to route '${router.prefix || '/'}'`);
 });
+app.use(express.static(path.join(__dirname, '/public')));
 
 export default app;
