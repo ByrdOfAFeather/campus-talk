@@ -1,3 +1,38 @@
+function debouncer(debouncee, debounceeArgs, time) {
+    let currentCallbackID = null;
+    return function () {
+        if (currentCallbackID === null) {
+            debouncee(debounceeArgs);
+            currentCallbackID = setTimeout(function () {
+                currentCallbackID = null;
+            }, time);
+        }
+    }
+}
+
+function searchPosts() {
+    let searchInput = $("#search").val();
+    axios.get("http://localhost:3000/private/posts", {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+        }
+    }).then(function (result) {
+        let posts = result.data.result;
+
+        let searchablePosts = [];
+        let keys = Object.keys(posts);
+        for (let i = 0; i < keys.length; i++) {
+            let pushable = posts[keys[i]];
+            pushable.id = keys[i];
+            searchablePosts.push(pushable);
+        }
+
+        searchablePosts = searchablePosts.filter((post) => post.title.startsWith(searchInput));
+        console.log(searchablePosts);
+    })
+}
+
+
 function cleanUpModal() {
     $("#modal-content-container").empty();
     $("#generic-input-modal").removeClass("is-active");
@@ -242,7 +277,7 @@ async function deleteCommentsFromPost(commentIDs) {
     for (let i = 0; i < commentIDs.length; i++) {
         let currentCommentObjectRequest = await axios.get(`http://localhost:3000/private/comments/${commentIDs[i]}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
         let currentCommentObject = currentCommentObjectRequest.data.result;
-        let userComments = await getUserPosts(commentObject.author);
+        let userComments = await getUserPosts(currentCommentObject.author);
 
         let foundIndex = null;
         userComments.find(function (value, index) {
@@ -272,14 +307,14 @@ async function deleteCommentsFromPost(commentIDs) {
 }
 
 async function deletePost(postID) {
-    let postObjectRequest = axios.get(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    let postObjectRequest = await axios.get(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
     let postObject = postObjectRequest.data.result;
 
     await deleteCommentsFromPost(postObject.comments);
 
-    let currentUserObjectRequest = await axios.get(`http://localhost:3000/private/users/${localStorage.getItem("userID")}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
-    let currentUserObject = currentUserObjectRequest.data.result;
-    let userPosts = await getUserPosts(currentUserObject.posts);
+    // let currentUserObjectRequest = await axios.get(`http://localhost:3000/private/users/${localStorage.getItem("userID")}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    // let currentUserObject = currentUserObjectRequest.data.result;
+    let userPosts = await getUserPosts(postObject.author);
 
     let foundIndex = null;
     userPosts.find(function (value, index) {
@@ -299,7 +334,7 @@ async function deletePost(postID) {
         }
     });
 
-    let deleteRequest = await axios.delete(`http://localhost:3000/private/comments/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    let deleteRequest = await axios.delete(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
 }
 
 async function createNewComment() {
@@ -413,7 +448,7 @@ function createNewPost() {
 
             if (result.status === 200) {
                 $("#new-post-form").remove();
-                console.log("I'm geting here");
+                loadContent();
                 let userPosts = await getUserPosts(localStorage.getItem("userID"));
                 console.log(userPosts);
                 userPosts.push(id);
@@ -445,15 +480,18 @@ async function getRandomContent(numberOfPosts) {
     let endResult = [];
     if (keys.length > numberOfPosts) {
         for (let i = 0; i < numberOfPosts; i++) {
-            let index = Math.floor(Math.random() * keys.length - 1);
-            endResult.push(content.data.result[keys[index]]);
+            let index = Math.floor(Math.random() * (keys.length - 1));
+            let pushable = content.data.result[keys[index]];
+            pushable.id = keys[index];
+            endResult.push(pushable);
         }
     } else {
         for (let i = 0; i < keys.length; i++) {
-            endResult.push(content.data.result[keys[i]]);
+            let pushable = content.data.result[keys[i]];
+            pushable.id = keys[i];
+            endResult.push(pushable);
         }
     }
-
     return endResult;
 }
 
@@ -467,7 +505,7 @@ function generateDOMPost(postObject, index) {
                             <p class="card-header-title">${postObject.title}</p>
                         </div>
                         <div class="level-right">
-                            ${localStorage.getItem("userID") === postObject.author ? `<button class="delete"></button>` : ``}
+                            ${localStorage.getItem("userID") === postObject.author ? `<button class="delete" onclick="deletePost(${postObject.id})"></button>` : ``}
                         </div>
                     </div>
               </header>
@@ -492,22 +530,18 @@ function autoHeightAnimate(element, time, callback) {
 }
 
 
-// function animatePosts(index, total) {
-//
-// }
-
-
 async function loadContent() {
-    let postObjects = await getRandomContent();
+    let postObjects = await getRandomContent(5);
     let recentPostContainer = $("#random-posts-container");
+    recentPostContainer.empty();
     for (let i = 0; i < postObjects.length; i++) {
         let currentPost = generateDOMPost(postObjects[i], i);
         recentPostContainer.append(currentPost);
     }
     $(".card").css("box-shadow", "0px 0px");
     for (let i = 0; i < postObjects.length; i++) {
-        autoHeightAnimate($(`#post-${i}`), 650 + (500 * i), function () {
-            $(`#post-${i}-card`).animate({boxShadow: "0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1)"}, function() {
+        autoHeightAnimate($(`#post-${i}`), 650 + (300 * i), function () {
+            $(`#post-${i}-card`).animate({boxShadow: "0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1)"}, function () {
                 $(`#post-${i}-card`).removeAttr("style");
             });
         });
@@ -517,6 +551,7 @@ async function loadContent() {
 
 $(document).ready(async function () {
     $("#new-post-button").on("click", createNewPost);
+    $("#search").on("input", debouncer(searchPosts, null, 500));
 
     // Load in the username or guest
     let isLoggedIn = localStorage.getItem("apiKey");

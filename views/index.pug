@@ -26,16 +26,22 @@ section.section
     .container
         .columns.is-multiline.is-centered.is-vcentered
             .column.is-12.has-text-centered
-                p.has-text-gray What would you look at today,
+                p.has-text-gray.is-italic What would you look at today,
                 .columns.is-centered.is-vcentered.has-text-centered
                     .column.is-narrow.has-text-centered
-                        p#username-greeting
+                        p#username-greeting.is-italic
                     .column.is-narrow.gone#create-account-button-container
                         button#create-account-button.button Create Account
                     .column.is-narrow.gone#login-button-container
                         button#login-button.button Login
             .column.has-text-centered
                 #random-posts-container.columns
+
+section.section
+    .container
+        .columns.is-centered.is-vcentered
+            .column.is-narrow
+                input.input#search
 
 section.section
     .container
