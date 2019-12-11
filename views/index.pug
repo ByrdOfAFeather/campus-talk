@@ -14,6 +14,12 @@ head
         #modal-content-container.container
 
 section.section
+    .container#focused-post-container
+
+
+section.section
+section.section#all-posts
+
     // Title Section
     .container
         .columns.is-centered.is-vcentered.is-multiline
@@ -21,7 +27,8 @@ section.section
                 h1.title Campus - Talk
             .column.has-text-centered
                 h2.subtitle The anonymous chat platform
-section.section
+
+
     // Categories section
     .container
         .columns.is-multiline.is-centered.is-vcentered
@@ -37,19 +44,19 @@ section.section
             .column.has-text-centered
                 #random-posts-container.columns
 
-section.section
-    .container
-        .columns.is-centered.is-vcentered
-            .column.is-narrow
-                input.input#search
+    section.section
+        .container
+            .columns.is-centered.is-vcentered
+                .column.is-narrow
+                    input.input#search
 
-section.section
-    .container
-        .columns.is-centered.is-vcentered
-            .column.has-text-centered
-                button#new-post-button.button Create New Post
+    section.section
+        .container
+            .columns.is-centered.is-vcentered
+                .column.has-text-centered
+                    button#new-post-button.button Create New Post
 
-section.section
-    .container.gone#new-post-container
+    section.section
+        .container.gone#new-post-container
 
 script(type="text/javascript" src="js/animations.js")

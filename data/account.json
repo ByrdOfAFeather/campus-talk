@@ -1,22 +1,16 @@
 {
   "users": {
-    "df": {
-      "passwordHash": "$2b$10$8BFELZFAcWFvgXv3kYMOzudMXNPKtDEb4tDwoF3xZwL3GR32tHZR6"
-    },
-    "this is a test": {
-      "passwordHash": "$2b$10$mukQheybgIm7jfze75ZUC.aoxj/8lzxc7GiVd83Z.r7hBJWN6xzY6"
-    },
-    "this is  ": {
-      "passwordHash": "$2b$10$xHbrs0xb6Nq7xylE5uOOQ.au6E.df8HzHlc9t1YOx4UQqSynw540a"
-    },
-    "this is a testadf": {
-      "passwordHash": "$2b$10$uEoKMu1Wfgp6aqT0v0MyuuPHa396RQxYEe/Trhd1AOCqudtLw/0BC"
-    },
-    "this": {
-      "passwordHash": "$2b$10$eDS6chVFrZtCMILMDPTgCObPpWUGAKrsCwGii5nNjAWgMQJ/y7yN2"
-    },
     "boaf": {
-      "passwordHash": "$2b$10$wgxmMgq8GleUYNAeEKVk9uuUiIw1RClntKJlvcx0FPeiAGdPsSDWS"
+      "passwordHash": "$2b$10$q3LlOxGamTR2jXzB2xSBA.YyYBN9ALgbFH.Ho/AVu4BhBReYGCp4C"
+    },
+    "nodejs": {
+      "passwordHash": "$2b$10$5UHeM.2imfGSzXSaFOksVuyxs7szjI45kDsERQGkkEL4H8IH6gm8u"
+    },
+    "alksdjf": {
+      "passwordHash": "$2b$10$jpy1pzi4Mq7BugTgjCbWP.1JkUygamtBWU6QfxkhOtv.4mgQ4e0eq"
+    },
+    "my name is a tester": {
+      "passwordHash": "$2b$10$p6HwBRhNqRH9YiyZBViE5Obqajas6odoQYVZNw6jjHAjBm3UhGBF6"
     }
   }
 }

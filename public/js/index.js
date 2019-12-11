@@ -326,6 +326,10 @@ async function deletePost(postID) {
         }
     });
 
+    if (foundIndex !== null) {
+        userPosts.splice(foundIndex, 1);
+    }
+
     await axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/posts`, {
         "data": userPosts,
     }, {
@@ -335,6 +339,7 @@ async function deletePost(postID) {
     });
 
     let deleteRequest = await axios.delete(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    loadContent();
 }
 
 async function createNewComment() {
@@ -497,21 +502,15 @@ async function getRandomContent(numberOfPosts) {
 
 function generateDOMPost(postObject, index) {
     return $(`
-        <div id="post-${index}" class="column hidden">
+        <div id="post-${index}" class="column hidden is-one-fifth">
             <div id="post-${index}-card" class="card clickable">
               <header class="card-header">
-                    <div class="level">
-                        <div class="level-left">
-                            <p class="card-header-title">${postObject.title}</p>
-                        </div>
-                        <div class="level-right">
-                            ${localStorage.getItem("userID") === postObject.author ? `<button class="delete" onclick="deletePost(${postObject.id})"></button>` : ``}
-                        </div>
-                    </div>
+                <p class="card-header-title has-text-centered">${postObject.title}</p>
+                ${localStorage.getItem("userID") === postObject.author ? `<button class="delete" onclick="deletePost(${postObject.id})"></button>` : ``}
               </header>
               <div class="card-content">
                 <div class="content">
-                  ${postObject.content}
+                  ${postObject.content.length > 35 ? postObject.content.slice(0, 35) + "..." : postObject.content}
                 </div>
               </div>
             </div>
@@ -536,6 +535,9 @@ async function loadContent() {
     recentPostContainer.empty();
     for (let i = 0; i < postObjects.length; i++) {
         let currentPost = generateDOMPost(postObjects[i], i);
+        currentPost.on("click", `#post-${i}-card`, function () {
+            transitionFromHomeToPost(postObjects[i].id, i, postObjects[i])
+        });
         recentPostContainer.append(currentPost);
     }
     $(".card").css("box-shadow", "0px 0px");
@@ -545,6 +547,88 @@ async function loadContent() {
                 $(`#post-${i}-card`).removeAttr("style");
             });
         });
+    }
+}
+
+
+async function getReccomendations(postObject) {
+    let result = await axios.post("http://localhost:3000/reccomend", {
+        data: {
+            post: postObject
+        }
+    });
+    return result;
+}
+
+async function loadReccomendations(id) {
+
+}
+
+
+async function transitionFromHomeToPost(postID, index, postObject) {
+    let currentPost = $(`#post-${index}`);
+    for (let i = 0; i < 5; i++) {
+        if (i === 4 && i !== index) {
+            $(`#post-${i}`).animate({opacity: 0}, 500, function () {
+                let rect = currentPost.get(0).getBoundingClientRect();
+                let parentRect = document.getElementById("random-posts-container").getBoundingClientRect();
+                let newPost = currentPost.clone();
+                newPost.css("left", rect.left);
+                newPost.css("width", currentPost.css("width"));
+                newPost.css("height", currentPost.css("height"));
+                newPost.css("top", rect.top);
+
+                newPost.css("position", "absolute");
+                $(document.body).append(newPost);
+
+                currentPost.css("position", "absolute");
+                currentPost.css("opacity", 0);
+                $("#all-posts").fadeOut(300, async function () {
+                    newPost.removeClass("clickable");
+                    newPost.trigger("blur");
+                    newPost.find(".delete").remove();
+                    newPost.css("padding", "0px");
+                     let id = await getReccomendations(postObject);
+                     setTimeout(loadReccomendations(id), 1000);
+                    let okay = $(`
+        <div id="hidden-columns" class="columns hidden">
+            <div class="column">
+                <div class="columns is-multiline">
+                    <div class="column is-12">
+                        ${newPost.html()}
+                    </div>
+                    <div class="column">
+                        <div class="columns is-multiline">
+                            <!-- {{ all comments }} -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="reccomendations" class="column is-narrow">
+                <!-- {{ reccomendation posts }} --> 
+            </div>
+        </div>`);
+                    $("#focused-post-container").append(okay);
+                    okay.find(".card-content").get(0).innerHTML = `${postObject.content}`;
+                    let cardID = newPost.attr("id");
+                    newPost.attr("id", "empty");
+
+
+                    let focusedRect = $(`#${cardID}-card`).get(0).getBoundingClientRect();
+
+                    console.log(focusedRect);
+                    newPost.animate({left: focusedRect.left, top: focusedRect.top}, 750, function () {
+                        newPost.find(".card-content").get(0).innerHTML = `${postObject.content}`;
+                        newPost.animate({width: $(`#${cardID}-card`).css("width")}, function() {
+                            $(`#hidden-columns`).removeClass("hidden");
+                            newPost.remove();
+                        });
+                    });
+                });
+            });
+        } else if (i !== index) {
+            $(`#post-${i}`).animate({opacity: 0}, 500);
+        }
     }
 }
 
