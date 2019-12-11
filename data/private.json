@@ -47,18 +47,14 @@
       "username": "guyFieri",
       "posts": [
         22582,
-        43330
+        43330,
+        90891
       ],
       "postsCommentedOn": [
         59011
       ],
       "numberOfLikes": 0,
       "likedPosts": []
-    },
-    "\\${localStorage.getItem\\(\"userID\"\\)}": {
-      "likedPosts": [
-        53616
-      ]
     }
   },
   "posts": {
@@ -113,9 +109,7 @@
       "numberOfLikes": 0,
       "comments": [],
       "id": "53616",
-      "usersWhoLikedThePost": [
-        97518
-      ]
+      "usersWhoLikedThePost": []
     },
     "59877": {
       "title": "More Transformers Lore ",
@@ -137,6 +131,15 @@
       "usersWhoLikedThePost": [],
       "id": "70778"
     },
+    "90891": {
+      "title": "myPost is a post",
+      "content": "like test",
+      "author": "97518",
+      "date": "Wed Dec 11 2019 14:52:51 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
+      "comments": [],
+      "usersWhoLikedThePost": []
+    },
     "93873": {
       "title": "hu-huh",
       "content": "Halo 2: Anniversary* for Halo: The Master Chief Collection comes to PC looking better than ever, including up to 4K UHD resolution and HDR. Now optimized for PC with mouse and keyboard support and other native PC features.\n\n\nCelebrating Halo 2's 10-year anniversary, the iconic fan favorite returns, featuring a fully re-mastered campaign with “Classic Mode” letting you instantly switch between the re-mastered game and the original game from 2004. Explore extended cut scenes, hidden terminal videos, and utilize all new skulls to experience the campaign in a whole new way.\n\n\nPlay the game that defined online multiplayer with all 25 original multiplayer maps just as fans remember them, plus 6 completely re-imagined maps.\n\n\nHalo: The Master Chief Collection is required to play the (digital only) Halo 2: Anniversary.",
@@ -146,9 +149,6 @@
       "comments": [],
       "usersWhoLikedThePost": [],
       "id": "93873"
-    },
-    "\\${contentID}": {
-      "usersWhoLikedThePost": []
     }
   },
   "comments": {
