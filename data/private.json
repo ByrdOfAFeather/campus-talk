@@ -29,15 +29,50 @@
       "postsCommentedOn": [],
       "numberOfLikes": 0
     },
+    "49644": {
+      "username": "guyFieri",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
     "73799": {
       "username": "This is a test",
       "posts": [],
       "likedPosts": [],
       "postsCommentedOn": [],
       "numberOfLikes": 0
+    },
+    "97518": {
+      "username": "guyFieri",
+      "posts": [
+        67635,
+        22582
+      ],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
     }
   },
   "posts": {
+    "20373": {
+      "title": "A Post title",
+      "content": "This is a post",
+      "author": "90224",
+      "date": "Wed Dec 11 2019 13:03:42 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
+      "comments": [],
+      "usersWhoLikedThePost": []
+    },
+    "22582": {
+      "title": "sdfa",
+      "content": "sdfasdfsda",
+      "author": "97518",
+      "date": "Wed Dec 11 2019 13:12:20 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
+      "comments": [],
+      "usersWhoLikedThePost": []
+    },
     "30969": {
       "title": "Okay Now This is ",
       "content": "The ship was first spotted as it streaked across the Detroit skyline and landed. On orders from Ultra Magnus, Sentinel Prime activated the ship's forcefield to quarantine it against the organics of Earth. However as Cybertronian technology its forcefield was no match for Sari Sumdac's AllSpark Key, which permitted the tiny organic to enter and scare the bajoobies out of Jazz. The Elite Guard\n\nAfter the revelation that Detroit was host to numerous scattered AllSpark fragments, Ultra Magnus stayed on board, ready to report any \"supposed\" Decepticon activity directly to Cybertron Command. Optimus and Sentinel reported to Magnus about the reported Decepticon activity, which itself was a trick by the Headmaster to get Sentinel's body, though Optimus stretched the truth on his behalf. The Return of the Headmaster Soon Magnus received a report from his agent Ironhide who was stationed on the rim of the galaxy. Ironhide, while under heavy fire, informed Magnus that the Decepticons were growing bolder and attacking remote Autobot colonies and space bridges. Magnus made preparations for the ship to leave Earth. The ship's forcefields were shown not to penetrate below the ground, which allowed the cloaked Decepticons to tunnel beneath it and steal the ship's subspace transmitter. After finding out that Optimus was telling the truth about the Decepticons, the Elite Guard flew the ship back to Cybertron to defend it from the 'Cons. Mission Accomplished\n\nOn its way back to Cybertron, the Decepticon captive Starscream broke out of the vessel and headed back for Earth. Due to the theft of the transmitter, the Elite Guard were unable to contact the Autobots on Earth about it until they landed on Cybertron. A Fistful of Energon\n\nSentinel, Jazz, Jetfire, and Jetstorm took the Steelhaven to Earth in pursuit of the fugitive Wasp. Where Is Thy Sting? While on Earth, the Autobots began incarcerating several of Megatron's lieutenants that Sentinel had hired Lockdown to round up. The crew learned of the attack on Ultra Magnus, Five Servos of Doom and when Wasp had been dealt with, Sentinel departed Earth to head back to Cybertron. Predacons Rising Thanks to Sentinel steering the ship through an energy cloud in his haste to get home, Swindle was revived and freed the other prisoners. Lugnut led an uprising against the Elite Guard, and Sentinel was only just able to signal Optimus for help before getting captured. Optimus was sent aboard the ship and the ensuing battle spilled out into space once Lugnut poked a hole in the Steelhaven. While Lugnut was lost in space, Blitzwing, Sunstorm, and Ramjet were recaptured by Optimus and Jazz. As thanks for his help, Sentinel took the Steelhaven back to Earth to drop off Optimus before returning to Cybertron. Decepticon Air\n\nNotes",
@@ -69,6 +104,10 @@
       "comments": [],
       "usersWhoLikedThePost": [],
       "id": "59877"
+    },
+    "67635": {
+      "title": "Guy is no more",
+      "content": "Flavortown has been wiped by the pestilence"
     },
     "70778": {
       "title": "asdf",

@@ -82,9 +82,14 @@ async function toggleLike(currentUserID, contentID) {   // if the logged in user
 async function editPost(userID, postID, newTitle, newBody) {
     let res = await axios.get(`http://localhost:3000/private/posts/${postID}/`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
 
+    let otherAuthor = res.data.result['author'];
+    console.log("before delete: " + otherAuthor);
+
+
     let deleteResult = await axios.delete(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
 
     let sameAuthor = res.data.result['author'];
+    console.log("after delete" + sameAuthor);
 
 
     await axios.post(`http://localhost:3000/private/posts/${postID}/`, {

@@ -2,6 +2,9 @@
   "users": {
     "this is a test": {
       "passwordHash": "$2b$10$gHBfj1lWepgNAct4fL0P6OsVx7160xhGSSqiGoKkI4neg1KqkJMw2"
+    },
+    "guyfieri": {
+      "passwordHash": "$2b$10$z9NPgQTsVJNOkR0GxiFuEereQ4FcSrg7EfwaKiZ/z7rP2GYLLjTMK"
     }
   }
 }
