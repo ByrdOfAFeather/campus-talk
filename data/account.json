@@ -1,16 +1,7 @@
 {
   "users": {
-    "boaf": {
-      "passwordHash": "$2b$10$q3LlOxGamTR2jXzB2xSBA.YyYBN9ALgbFH.Ho/AVu4BhBReYGCp4C"
-    },
-    "nodejs": {
-      "passwordHash": "$2b$10$5UHeM.2imfGSzXSaFOksVuyxs7szjI45kDsERQGkkEL4H8IH6gm8u"
-    },
-    "alksdjf": {
-      "passwordHash": "$2b$10$jpy1pzi4Mq7BugTgjCbWP.1JkUygamtBWU6QfxkhOtv.4mgQ4e0eq"
-    },
-    "my name is a tester": {
-      "passwordHash": "$2b$10$p6HwBRhNqRH9YiyZBViE5Obqajas6odoQYVZNw6jjHAjBm3UhGBF6"
+    "this is a test": {
+      "passwordHash": "$2b$10$gHBfj1lWepgNAct4fL0P6OsVx7160xhGSSqiGoKkI4neg1KqkJMw2"
     }
   }
 }

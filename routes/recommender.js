@@ -2,7 +2,7 @@ import express from "express";
 
 const {privateStore} = require('../data/DataStore');
 const language = require('@google-cloud/language');
-const client = new language.LanguageServiceClient({keyFilename: "/home/byrdofafeather/.PyCharm2019.3/config/scratches/misc/campusTalk-3b14b257405b.json"});
+const client = new language.LanguageServiceClient({keyFilename: "C:\\Users\\matth\\Documents\\Test\\comp426-backend\\campusTalk-3b14b257405b.json"});
 
 async function getPostClassification(post) {
     // BASED ON GOOGLE'S TUTORIAL ON NATURAL LANGUAGE PROCESSING:
@@ -126,7 +126,7 @@ router.post('/reccomend', function (req, res) {
     console.log("I got here");
     let id = Math.floor(Math.random() * 10000);
     recommendPosts(req.body.data.post, id);
-    return {id: id};
+    res.send({id: id});
 });
 
 async function recommendPosts(post, id) {

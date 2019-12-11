@@ -344,7 +344,7 @@ async function deletePost(postID) {
 
 async function createNewComment() {
     //TODO ACTUALLY GET INPUT
-    let postID = 58532;
+    let postID = 30969;
     let comment = "This is a comment";
     let id = Math.floor(Math.random() * 100000);
 
@@ -560,8 +560,53 @@ async function getReccomendations(postObject) {
     return result;
 }
 
-async function loadReccomendations(id) {
+async function loadReccomendations(id, postID) {
+    try {
+        let reccomendations = await axios.get(`http://localhost:3000/private/results/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+            }
+        });
+        let results = reccomendations.data.result.simmilars;
+        console.log(results);
+        for (let i = 0; i < results.length; i++) {
+            if (i % 2 !== 0 || results[i] == postID) {
+                continue;
+            }
+            let postInfo = await axios.get(`http://localhost:3000/private/posts/${results[i]}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+                }
+            });
+            postInfo = postInfo.data.result;
+            let card = $(`
+            <div id="post-${results[i]}" class="column hidden is-one-fifth" style="width: 100%">
+            <div id="post-${results[i]}-card" class="card clickable">
+              <header class="card-header">
+                <p class="card-header-title has-text-centered">${postInfo.title}</p>
+                ${localStorage.getItem("userID") === postInfo.author ? `<button class="delete" onclick="deletePost(${postInfo.id})"></button>` : ``}
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  ${postInfo.content.length > 35 ? postInfo.content.slice(0, 35) + "..." : postInfo.content}
+                </div>
+              </div>
+            </div>
+        </div>
+            `);
+            $("#reccomendations").append(card);
+            $(`#post-${results[i]}`).animate({opacity: 1});
+            card.on("click", `#post-${results[i]}-card`, function () {
+                transitionFromHomeToPost(postInfo.id, i, postInfo[i])
+            });
+        }
+    }
 
+    catch (e) {
+        setTimeout(function () {
+            loadReccomendations(id, postID);
+        }, 1000);
+    }
 }
 
 
@@ -588,8 +633,11 @@ async function transitionFromHomeToPost(postID, index, postObject) {
                     newPost.trigger("blur");
                     newPost.find(".delete").remove();
                     newPost.css("padding", "0px");
-                     let id = await getReccomendations(postObject);
-                     setTimeout(loadReccomendations(id), 1000);
+                    let id = await getReccomendations(postObject);
+                    id = id.data.id;
+                    setTimeout(function () {
+                        loadReccomendations(id, postID);
+                    }, 2000);
                     let okay = $(`
         <div id="hidden-columns" class="columns hidden">
             <div class="column">
@@ -598,8 +646,25 @@ async function transitionFromHomeToPost(postID, index, postObject) {
                         ${newPost.html()}
                     </div>
                     <div class="column">
-                        <div class="columns is-multiline">
+                        <div id="comments" class="columns is-multiline">
                             <!-- {{ all comments }} -->
+<!--                            <form id="new-comment-form" class="form" onsubmit="return false;">                            -->
+<!--                                <div class="field">-->
+<!--                                    <label class="label">What do you want to say?</label>-->
+<!--                                    <div class="control">-->
+<!--                                        <textarea id="comment-content-input" class="textarea"></textarea>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                -->
+<!--                                <div class="level">-->
+<!--                                    <div class="level-left">-->
+<!--                                        <button id="comment-cancel" class="button">Cancel</button>-->
+<!--                                    </div>-->
+<!--                                    <div class="level-right">-->
+<!--                                        <button id="comment-submit" class="button">Submit</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </form>-->
                         </div>
                     </div>
                 </div>
@@ -619,9 +684,31 @@ async function transitionFromHomeToPost(postID, index, postObject) {
                     console.log(focusedRect);
                     newPost.animate({left: focusedRect.left, top: focusedRect.top}, 750, function () {
                         newPost.find(".card-content").get(0).innerHTML = `${postObject.content}`;
-                        newPost.animate({width: $(`#${cardID}-card`).css("width")}, function() {
+                        newPost.animate({width: $(`#${cardID}-card`).css("width")}, async function () {
                             $(`#hidden-columns`).removeClass("hidden");
                             newPost.remove();
+
+                            let comments = await getPostComments(postID);
+                            console.log(comments);
+                            for (let i = 0; i < comments.length; i++) {
+                                let curComment = await axios.get(`http://localhost:3000/private/comments/${comments[i]}`, {
+                                    headers: {"Authorization": `Bearer ${localStorage.getItem("apiKey")}`}
+                                });
+                                curComment = curComment.data.result;
+
+                                let domComment = $(`<div id="comment-${curComment.id}" class="column hidden is-one-fifth" style="width: 100%">
+                                    <div id="comment-${curComment.id}-card" class="card clickable">
+                                    <div class="card-content">
+                                    <div class="content">
+                                    ${curComment.comment.length > 35 ? curComment.comment.slice(0, 35) + "..." : curComment.comment}
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>`);
+                                $("#comments").append(domComment);
+
+                                $(`#comment-${comments[i].id}`).animate({opacity: 1});
+                            }
                         });
                     });
                 });
