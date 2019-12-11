@@ -46,7 +46,13 @@
     "97518": {
       "username": "guyFieri",
       "posts": [
-        22582
+        22582,
+        11408,
+        17656,
+        9135,
+        66701,
+        66199,
+        22254
       ],
       "likedPosts": [],
       "postsCommentedOn": [],
@@ -54,11 +60,34 @@
     }
   },
   "posts": {
+    "9135": {
+      "title": "fixed title",
+      "content": "fixed body"
+    },
+    "11408": {
+      "title": "changedtitle",
+      "content": "changed body",
+      "id": "11408"
+    },
+    "17656": {
+      "title": "altered",
+      "content": "changed"
+    },
     "20373": {
       "title": "A Post title",
       "content": "This is a post",
       "author": "90224",
       "date": "Wed Dec 11 2019 13:03:42 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
+      "comments": [],
+      "usersWhoLikedThePost": [],
+      "id": "20373"
+    },
+    "22254": {
+      "title": "altered",
+      "content": "newbody",
+      "author": "97518",
+      "date": "Wed Dec 11 2019 14:06:35 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
       "comments": [],
       "usersWhoLikedThePost": []
@@ -70,7 +99,8 @@
       "date": "Wed Dec 11 2019 13:12:20 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
       "comments": [],
-      "usersWhoLikedThePost": []
+      "usersWhoLikedThePost": [],
+      "id": "22582"
     },
     "30969": {
       "title": "Okay Now This is ",
@@ -103,6 +133,14 @@
       "comments": [],
       "usersWhoLikedThePost": [],
       "id": "59877"
+    },
+    "66199": {
+      "title": "changed title",
+      "content": "changed body"
+    },
+    "66701": {
+      "title": "updated title",
+      "content": "upd body"
     },
     "70778": {
       "title": "asdf",
