@@ -19,8 +19,13 @@ async function toggleLike(currentUserID, contentID) {   // if the logged in user
     let usersLikedPosts = userResponse.data.result['likedPosts'];
     let postsUsersWhoLiked = postResponse.data.result['usersWhoLikedThePost'];
 
+    console.log(usersLikedPosts);
+
     if (userResponse.status == 200 && postResponse.status == 200) {
-        if (usersLikedPosts.contains(contentID)) { // if the post has already been liked and the user is unliking, remove like from user's liked post and post
+        if (usersLikedPosts.includes(contentID)) { // if the post has already been liked and the user is unliking, remove like from user's liked post and post
+            await axios.delete(`http://localhost:3000/private/users/${currentUserID}/likedPosts`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+            await axios.delete(`http://localhost:3000/private/posts/${contentID}/usersWhoLikedThePost`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+
             for (let i = 0; i < usersLikedPosts.length; i++) {
                 if (usersLikedPosts[i] == contentID) { //apparently this causes a critical section error but i can't think of a way around this
                     usersLikedPosts.splice(i, i + 1);
@@ -31,26 +36,15 @@ async function toggleLike(currentUserID, contentID) {   // if the logged in user
                     postsUsersWhoLiked.splice(i, i + 1);
                 }
             }
-            /*
-            pretty sure that because of the way the api is set up I cant use merge to change the "likePosts" of the user
-            and the "usersWhoLikedThePost" because merge takes the union of the two I think.  So I have to make the change
-            client side instead, by deleting the servers value for these two items and replacing it with my own, but
-            according to the TA this can cause a critical section error but i see no other way around it short of
-            modifying the api itself to support a "destructive merge" type operation
-             */
 
-            //await axios.
-
-
-
-            await axios.post('http://localhost:3000/private/users/${localStorage.getItem("userID")}/likedPosts', {
+            await axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/likedPosts`, {
                 'data': usersLikedPosts,
             }, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("apiKey")
                 }
             });
-            await axios.post('http://localhost:3000/private/posts/${contentID}/usersWhoLikedThePost', {
+            await axios.post(`http://localhost:3000/private/posts/${contentID}/usersWhoLikedThePost`, {
                 'data': postsUsersWhoLiked,
             }, {
                 headers: {
@@ -58,18 +52,18 @@ async function toggleLike(currentUserID, contentID) {   // if the logged in user
                 }
             });
         } else { // add stuff to content and user
-            await axios.post('http://localhost:3000/private/users/${localStorage.getItem("userID")}/likedPosts', {
+            await axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/likedPosts`, {
                 'data': contentID,
-                'type': merge
+                'type': "merge"
             }, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("apiKey")
                 }
             });
 
-            await axios.post('http://localhost:3000/private/posts/${contentID}/usersWhoLikedThePost', {
-                'data': postsUsersWhoLiked,
-                'type': merge
+            await axios.post(`http://localhost:3000/private/posts/${contentID}/usersWhoLikedThePost`, {
+                'data': currentUserID,
+                'type': "merge"
             }, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("apiKey")

@@ -49,11 +49,16 @@
         22582,
         43330
       ],
-      "likedPosts": [],
       "postsCommentedOn": [
         59011
       ],
-      "numberOfLikes": 0
+      "numberOfLikes": 0,
+      "likedPosts": []
+    },
+    "\\${localStorage.getItem\\(\"userID\"\\)}": {
+      "likedPosts": [
+        53616
+      ]
     }
   },
   "posts": {
@@ -107,8 +112,10 @@
       "date": "Wed Dec 11 2019 11:28:19 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
       "comments": [],
-      "usersWhoLikedThePost": [],
-      "id": "53616"
+      "id": "53616",
+      "usersWhoLikedThePost": [
+        97518
+      ]
     },
     "59877": {
       "title": "More Transformers Lore ",
@@ -139,6 +146,9 @@
       "comments": [],
       "usersWhoLikedThePost": [],
       "id": "93873"
+    },
+    "\\${contentID}": {
+      "usersWhoLikedThePost": []
     }
   },
   "comments": {
