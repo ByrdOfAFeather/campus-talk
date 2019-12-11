@@ -90,11 +90,6 @@ async function editPost(userID, postID, newTitle, newBody) {
 }
 
 
-
-
-
-
-
 // temp testing function
 async function tempCreateFunction(usernameInput,passwordInput) {
     $.ajax({
