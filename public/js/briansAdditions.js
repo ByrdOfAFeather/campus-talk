@@ -83,11 +83,7 @@ async function editPost(userID, postID, newTitle, newBody) {
     let res = await axios.get(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
     let postObject = res.data.result;
 
-    //console.log(postObject);
-    //console.log(postObject['numberOfLikes']);
-
     let deleteResult = await axios.delete(`http://localhost:3000/private/posts/${postID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
-
 
     await axios.post(`http://localhost:3000/private/posts/${postID}`, {
         data : {
@@ -105,83 +101,25 @@ async function editPost(userID, postID, newTitle, newBody) {
             "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
         },
     });
-
 }
 
-async function editComment(userID, postID, newBody) {
-    let result = await axios.post(`http://localhost:3000/private/comments/${id}/`, {
+async function editComment(userID, commentID, newBody) {
+    let res = await axios.get(`http://localhost:3000/private/comments/${commentID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    let postObject = res.data.result;
+
+    let deleteResult = await axios.delete(`http://localhost:3000/private/comments/${commentID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+
+    await axios.post(`http://localhost:3000/private/comments/${commentID}`, {
         data: {
-            postID: postID,
-            author: localStorage.getItem("userID"),
-            date: Date(),
-            comment: comment,
+            postID: postObject['postID'],
+            author: userID,
+            date: postObject['date'],
+            comment: newBody
         }
     }, {
         headers: {
-            "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+            "Authorization": "Bearer " + localStorage.getItem("apiKey")
         },
     });
+
 }
-
-
-
-
-
-
-// temp testing function
-async function tempCreateFunction(usernameInput,passwordInput) {
-    $.ajax({
-        url: "http://localhost:3000/account/create",
-        method: "POST",
-        data: {
-            name: usernameInput.val(),
-            pass: passwordInput.val(),
-        },
-        success: function (result) {
-            cleanUpModal();
-
-            $.ajax({
-                url: "http://localhost:3000/account/login",
-                method: "POST",
-                data: {
-                    name: usernameInput.val(),
-                    pass: passwordInput.val(),
-                },
-                success: function (result) {
-                    window.localStorage.setItem("apiKey", result.jwt);
-                    let id = Math.floor(Math.random() * 100000);
-                    window.localStorage.setItem("userID", id);
-                    axios.post(`http://localhost:3000/private/users/${id}`, {
-                        data: {
-                            username: usernameInput.val(),
-                            posts: [],
-                            likedPosts: [],
-                            postsCommentedOn: [],
-                            numberOfLikes: 0,
-                        },
-                    }, {
-                        headers: {
-                            "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
-                        },
-                    }).then((_) => {
-                        window.location.reload();
-                    });
-                },
-                error: function (result) {
-                    console.log("Somehow I failed to login someone!");
-                    console.log(result);
-                }
-            });
-
-
-        },
-        error: function (result) {
-            let error = result.data.error;
-            console.log(error);
-        }
-    });
-}
-
-
-//Testing
-//tempCreateFunction("brian", "password6");

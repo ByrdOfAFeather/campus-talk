@@ -344,8 +344,8 @@ async function deletePost(postID) {
 
 async function createNewComment() {
     //TODO ACTUALLY GET INPUT
-    let postID = 30969;
-    let comment = "This is a comment";
+    let postID = 43330;
+    let comment = "This is brian's comment";
     let id = Math.floor(Math.random() * 100000);
 
     let result = await axios.post(`http://localhost:3000/private/comments/${id}/`, {
