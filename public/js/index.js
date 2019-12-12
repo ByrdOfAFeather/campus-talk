@@ -17,7 +17,7 @@ async function searchPosts() {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
         }
-    }).next(function temp(result) {
+    }).then(function temp(result) {
         let posts = result.data.result;
 
         let searchablePosts = [];
@@ -32,6 +32,7 @@ async function searchPosts() {
         console.log(searchablePosts);
         return searchablePosts;
     });
+    return result;
     //return [];
 }
 
@@ -727,33 +728,50 @@ $(document).ready(async function () {
     $("#new-post-button").on("click", createNewPost);
     //$("#search").on("input", debouncer(searchPosts, null, 500));
     $("#search").autocomplete({
-        source: function(request,response) {
-            response(searchPostsAltered(request.term));
+        source: async function (request, response) {
+            let other = await searchPostsAltered(request.term);
+            console.log("other: " + other);
+            response(other);
         },
+        delay: 500,
+        select: async function (e, id) {
 
-    });
+            //TODO: *******load individual page view here*********
+            console.log(id.item.value);
 
-    $("#search").on("input", async function() {
+            finalThing = await axios.get(`http://localhost:3000/private/posts/${id.item.value}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+                }
 
-        if(document.getElementById("#auto-complete-home")== null) {
-            let autoCompleteHome = document.createElement("div");
-            autoCompleteHome.className = "columns is-centered is-vcentered";
-            autoCompleteHome.id = "auto-complete-home";
-            document.getElementById("search-results-attach").appendChild(autoCompleteHome);
+            });
+
+            console.log(finalThing);
         }
-
-        let postsToDisplay = await searchPosts();
-        console.log("posts: " + postsToDisplay);
-
-        setTimeout(function() {
-            console.log("posts: " + postsToDisplay)
-        },5000);
-
-
-
-
-
     });
+
+    //
+    // $("#search").on("input", async function() {
+    //
+    //     if(document.getElementById("#auto-complete-home")== null) {
+    //         let autoCompleteHome = document.createElement("div");
+    //         autoCompleteHome.className = "columns is-centered is-vcentered";
+    //         autoCompleteHome.id = "auto-complete-home";
+    //         document.getElementById("search-results-attach").appendChild(autoCompleteHome);
+    //     }
+    //
+    //     let postsToDisplay = await searchPosts();
+    //     console.log("posts: " + postsToDisplay);
+    //
+    //     setTimeout(function() {
+    //         console.log("posts: " + postsToDisplay)
+    //     },5000);
+    //
+    //
+    //
+    //
+    //
+    // });
 
 
 
@@ -800,7 +818,7 @@ $(document).ready(async function () {
 //
 function searchPostsAltered(searchInput) {
     console.log("search input: " + searchInput);
-    axios.get("http://localhost:3000/private/posts", {
+    let res = axios.get("http://localhost:3000/private/posts", {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
         }
@@ -816,7 +834,7 @@ function searchPostsAltered(searchInput) {
         }
 
         searchablePosts = searchablePosts.filter((post) => post.title.toLowerCase().startsWith(searchInput.toLowerCase()));
-        console.log(searchablePosts);
+        //console.log(searchablePosts);
         let filteredPosts = searchablePosts.map((post) => {
             var currentObj = {
                 label: post.title,
@@ -824,7 +842,8 @@ function searchPostsAltered(searchInput) {
             }
             return currentObj;
         });
-        console.log(filteredPosts);
+        //console.log(filteredPosts);
         return filteredPosts;
     });
+    return res;
 }
