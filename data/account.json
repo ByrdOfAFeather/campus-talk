@@ -5,6 +5,9 @@
     },
     "this is a new account": {
       "passwordHash": "$2b$10$atnZb1xUPZ88ASpTmJTh9O7KRw0kIuG/u0IlWnTwRLPHRCjnKeURa"
+    },
+    "test": {
+      "passwordHash": "$2b$10$9vUCMb0hcvo61uqpF9F3/uIcPtWRn3pvke78k3qgiFQ75t5HCt5nG"
     }
   }
 }

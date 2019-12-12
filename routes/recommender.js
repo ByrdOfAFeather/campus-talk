@@ -31,7 +31,7 @@ async function indexPosts(posts) {
     let indexes = {};
     for (let i = 0; i < posts.length; i++) {
         indexes[posts[i][0].id] = await getPostClassification(posts[i]);
-        if (indexes[posts[i][0].id]=== null) {
+        if (indexes[posts[i][0].id] === null) {
             return null;
         }
     }
@@ -135,23 +135,27 @@ async function recommendPosts(post, id) {
     // (ORIGINAL VERSION IN PYTHON)
     // ORIGINAL TUTORIAL: https://cloud.google.com/natural-language/docs/classify-text-tutorial
 
-    // returns the 5 most similar posts
-    let posts = getNRandomPosts(5, post.id);
-    posts.push([post]);
-    let indexes = await indexPosts(posts);
-    if (indexes == null) {
-        return  null;
-    }
-    let postNames = Object.keys(indexes);
+    try {
+        // returns the 5 most similar posts
+        let posts = getNRandomPosts(5, post.id);
+        posts.push([post]);
+        let indexes = await indexPosts(posts);
+        if (indexes == null) {
+            return null;
+        }
+        let postNames = Object.keys(indexes);
 
-    let simmilars = [];
-    for (let i = 0; i < postNames.length; i++) {
-        console.log(i);
-        simmilars.push(postNames[i], similarity(indexes[post.id], indexes[postNames[i]]));
-    }
+        let simmilars = [];
+        for (let i = 0; i < postNames.length; i++) {
+            console.log(i);
+            simmilars.push(postNames[i], similarity(indexes[post.id], indexes[postNames[i]]));
+        }
 
-    simmilars = simmilars.sort((a, b) => b[1] - a[1]);
-    // TODO: Take upvote count into account
-    console.log(simmilars);
-    privateStore["set"](`results.${id}`, {simmilars: simmilars})
+        simmilars = simmilars.sort((a, b) => b[1] - a[1]);
+        // TODO: Take upvote count into account
+        console.log(simmilars);
+        privateStore["set"](`results.${id}`, {simmilars: simmilars})
+    } catch (e) {
+        privateStore["set"](`results.${id}`, {simmilars: "error"})
+    }
 }

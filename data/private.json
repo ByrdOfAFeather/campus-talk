@@ -1,5 +1,19 @@
 {
   "users": {
+    "3019": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
+    "5302": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
     "9775": {
       "username": "This is a test",
       "posts": [],
@@ -24,9 +38,7 @@
         30969,
         70778,
         93873,
-        85214,
-        48509,
-        59907
+        85214
       ],
       "numberOfLikes": 0
     },
@@ -37,15 +49,61 @@
       "postsCommentedOn": [],
       "numberOfLikes": 0
     },
+    "17451": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
     "26735": {
+      "username": "This is a new account",
+      "posts": [
+        61762,
+        96110
+      ],
+      "postsCommentedOn": [
+        98965,
+        7549,
+        83460,
+        27771,
+        83218
+      ],
+      "numberOfLikes": 0,
+      "likedPosts": [
+        59877
+      ]
+    },
+    "36590": {
       "username": "This is a new account",
       "posts": [],
       "likedPosts": [],
       "postsCommentedOn": [],
       "numberOfLikes": 0
     },
-    "36590": {
-      "username": "This is a new account",
+    "42710": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
+    "48682": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
+    "54415": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
+    },
+    "65293": {
+      "username": "TEST",
       "posts": [],
       "likedPosts": [],
       "postsCommentedOn": [],
@@ -71,6 +129,13 @@
       "likedPosts": [],
       "postsCommentedOn": [],
       "numberOfLikes": 0
+    },
+    "88422": {
+      "username": "TEST",
+      "posts": [],
+      "likedPosts": [],
+      "postsCommentedOn": [],
+      "numberOfLikes": 0
     }
   },
   "posts": {
@@ -81,13 +146,12 @@
       "date": "Wed Dec 11 2019 11:29:48 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
       "comments": [
-        66305,
         47166,
         48509,
         59907
       ],
-      "usersWhoLikedThePost": [],
-      "id": "30969"
+      "id": "30969",
+      "usersWhoLikedThePost": []
     },
     "53616": {
       "title": "Omega Spampreme",
@@ -96,8 +160,8 @@
       "date": "Wed Dec 11 2019 11:28:19 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
       "comments": [],
-      "usersWhoLikedThePost": [],
-      "id": "53616"
+      "id": "53616",
+      "usersWhoLikedThePost": []
     },
     "59877": {
       "title": "More Transformers Lore ",
@@ -105,9 +169,24 @@
       "author": "10598",
       "date": "Wed Dec 11 2019 11:29:05 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
+      "comments": [
+        98965,
+        7549
+      ],
+      "usersWhoLikedThePost": [
+        26735
+      ],
+      "id": "59877"
+    },
+    "61762": {
+      "title": "asdfasdfasdf",
+      "content": "asdf",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 20:34:56 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
       "comments": [],
       "usersWhoLikedThePost": [],
-      "id": "59877"
+      "id": "61762"
     },
     "70778": {
       "title": "asdf",
@@ -116,8 +195,8 @@
       "date": "Wed Dec 11 2019 11:30:08 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
       "comments": [],
-      "usersWhoLikedThePost": [],
-      "id": "70778"
+      "id": "70778",
+      "usersWhoLikedThePost": []
     },
     "85214": {
       "title": "This is to test reccomendaitons ",
@@ -125,7 +204,11 @@
       "author": "10598",
       "date": "Wed Dec 11 2019 17:05:52 GMT-0500 (Eastern Standard Time)",
       "numberOfLikes": 0,
-      "comments": [],
+      "comments": [
+        83460,
+        27771,
+        83218
+      ],
       "usersWhoLikedThePost": [],
       "id": "85214"
     },
@@ -138,9 +221,31 @@
       "comments": [],
       "usersWhoLikedThePost": [],
       "id": "93873"
+    },
+    "96110": {
+      "title": "asdf",
+      "content": "asdf",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 20:35:20 GMT-0500 (Eastern Standard Time)",
+      "numberOfLikes": 0,
+      "comments": [],
+      "usersWhoLikedThePost": [],
+      "id": "96110"
     }
   },
   "comments": {
+    "7549": {
+      "postID": "59877",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 19:48:26 GMT-0500 (Eastern Standard Time)",
+      "comment": "asdf"
+    },
+    "27771": {
+      "postID": "85214",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 19:48:53 GMT-0500 (Eastern Standard Time)",
+      "comment": "Vector Prime Momente"
+    },
     "47166": {
       "postID": "30969",
       "author": "10598",
@@ -159,14 +264,29 @@
       "date": "Wed Dec 11 2019 18:34:16 GMT-0500 (Eastern Standard Time)",
       "comment": "Based"
     },
-    "66305": {
-      "postID": "30969",
-      "author": "10598",
-      "date": "Wed Dec 11 2019 18:26:29 GMT-0500 (Eastern Standard Time)",
+    "83218": {
+      "postID": "85214",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 19:48:53 GMT-0500 (Eastern Standard Time)",
+      "comment": "Vector Prime Momente"
+    },
+    "83460": {
+      "postID": "85214",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 19:48:45 GMT-0500 (Eastern Standard Time)",
+      "comment": "bruh"
+    },
+    "98965": {
+      "postID": "59877",
+      "author": "26735",
+      "date": "Wed Dec 11 2019 19:48:26 GMT-0500 (Eastern Standard Time)",
       "comment": "asdf"
     }
   },
   "results": {
+    "3": {
+      "simmilars": "error"
+    },
     "107": {
       "simmilars": [
         "30969",
@@ -182,6 +302,20 @@
       ]
     },
     "254": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "316": {
       "simmilars": [
         "30969",
         0,
@@ -304,6 +438,34 @@
         "70778",
         0,
         "85214",
+        0
+      ]
+    },
+    "877": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "906": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "85214",
+        0,
+        "93873",
         0
       ]
     },
@@ -433,6 +595,20 @@
         0
       ]
     },
+    "1494": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "1625": {
       "simmilars": [
         "30969",
@@ -462,6 +638,20 @@
       ]
     },
     "1791": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "1806": {
       "simmilars": [
         "30969",
         0,
@@ -713,6 +903,20 @@
         0
       ]
     },
+    "2840": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "2896": {
       "simmilars": [
         "30969",
@@ -742,6 +946,20 @@
       ]
     },
     "3143": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "3198": {
       "simmilars": [
         "30969",
         0,
@@ -825,6 +1043,20 @@
         0
       ]
     },
+    "3503": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "3617": {
       "simmilars": [
         "30969",
@@ -867,6 +1099,20 @@
         0
       ]
     },
+    "3829": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "3861": {
       "simmilars": [
         "30969",
@@ -892,6 +1138,20 @@
         "70778",
         0,
         "85214",
+        0
+      ]
+    },
+    "3876": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "93873",
         0
       ]
     },
@@ -923,7 +1183,35 @@
         0
       ]
     },
+    "3916": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "3955": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "4035": {
       "simmilars": [
         "30969",
         0,
@@ -1021,6 +1309,20 @@
         0
       ]
     },
+    "4424": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "4508": {
       "simmilars": [
         "30969",
@@ -1034,6 +1336,9 @@
         "85214",
         0
       ]
+    },
+    "4533": {
+      "simmilars": "error"
     },
     "4570": {
       "simmilars": [
@@ -1104,6 +1409,12 @@
         "85214",
         0
       ]
+    },
+    "5127": {
+      "simmilars": "error"
+    },
+    "5223": {
+      "simmilars": "error"
     },
     "5319": {
       "simmilars": [
@@ -1245,6 +1556,20 @@
         0
       ]
     },
+    "5978": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "6006": {
       "simmilars": [
         "30969",
@@ -1343,6 +1668,20 @@
         0
       ]
     },
+    "6339": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "6412": {
       "simmilars": [
         "30969",
@@ -1382,6 +1721,22 @@
         "70778",
         0,
         "85214",
+        0
+      ]
+    },
+    "6532": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0,
+        "93873",
         0
       ]
     },
@@ -1427,7 +1782,35 @@
         0
       ]
     },
+    "6881": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "6985": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "7035": {
       "simmilars": [
         "30969",
         0,
@@ -1482,6 +1865,37 @@
         "93873",
         0
       ]
+    },
+    "7291": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "7308": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "7323": {
+      "simmilars": "error"
     },
     "7330": {
       "simmilars": [
@@ -1567,7 +1981,24 @@
         0
       ]
     },
+    "7571": {
+      "simmilars": "error"
+    },
     "7612": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "7630": {
       "simmilars": [
         "30969",
         0,
@@ -1665,7 +2096,27 @@
         0
       ]
     },
+    "8007": {
+      "simmilars": "error"
+    },
     "8035": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "8057": {
+      "simmilars": "error"
+    },
+    "8218": {
       "simmilars": [
         "30969",
         0,
@@ -1721,6 +2172,34 @@
         0
       ]
     },
+    "8476": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "8585": {
+      "simmilars": [
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0,
+        "93873",
+        0
+      ]
+    },
     "8625": {
       "simmilars": [
         "30969",
@@ -1760,6 +2239,8 @@
         "70778",
         0,
         "85214",
+        0,
+        "93873",
         0
       ]
     },
@@ -1777,7 +2258,52 @@
         0
       ]
     },
+    "8739": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "8894": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
     "8964": {
+      "simmilars": [
+        "30969",
+        0,
+        "53616",
+        0,
+        "59877",
+        0,
+        "70778",
+        0,
+        "85214",
+        0
+      ]
+    },
+    "9125": {
+      "simmilars": "error"
+    },
+    "9207": {
       "simmilars": [
         "30969",
         0,
@@ -1860,6 +2386,9 @@
         "85214",
         0
       ]
+    },
+    "9650": {
+      "simmilars": "error"
     },
     "9863": {
       "simmilars": [

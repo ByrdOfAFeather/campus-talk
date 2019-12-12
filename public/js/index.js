@@ -160,6 +160,100 @@ function createAccountPopUp() {
     modal.addClass("is-active");
 }
 
+function loginPopUp() {
+    let form = $(`
+    <form class="form" onsubmit="return false;">
+        <div class="field">
+            <label class="label has-text-white">Username</label>
+            <div class="control">
+                <input id="username-input" class="input">
+            </div>
+        </div>
+    
+        <div class="field">
+            <label class="label has-text-white">Password</label>
+            <div class="control">
+                <input id="password-input" class="input">
+            </div>
+        </div>
+    
+        <div class="level">
+            <div class="level-left">
+                <button id="cancel-button" class="button">Cancel</button>
+            </div>
+            <div class="level-right">
+                <button id="submit-button" class="button disabled">Submit</button>
+            </div>
+        </div>
+    </form>
+    `);
+
+    let container = $("#modal-content-container");
+    let modal = $("#generic-input-modal");
+
+    container.append(form);
+    let usernameInput = $("#username-input");
+    let passwordInput = $("#password-input");
+    let validate = () => {
+        let usernameInputValue = usernameInput.val();
+        let passwordInputValue = passwordInput.val();
+        return !(usernameInputValue.length === 0 || passwordInputValue.length === 0);
+    };
+
+    let submitNewAccount = () => {
+        $.ajax({
+            url: "http://localhost:3000/account/login",
+            method: "POST",
+            data: {
+                name: usernameInput.val(),
+                pass: passwordInput.val(),
+            },
+            success: function (result) {
+                cleanUpModal();
+
+                window.localStorage.setItem("apiKey", result.jwt);
+                let id = Math.floor(Math.random() * 100000);
+                window.localStorage.setItem("userID", id);
+                axios.post(`http://localhost:3000/private/users/${id}`, {
+                    data: {
+                        username: usernameInput.val(),
+                        posts: [],
+                        likedPosts: [],
+                        postsCommentedOn: [],
+                        numberOfLikes: 0,
+                    },
+                }, {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+                    },
+                }).then((_) => {
+                    window.location.reload();
+                });
+            },
+            error: function (result) {
+                console.log("Somehow I failed to login someone!");
+                console.log(result);
+            }
+        });
+    };
+
+    let updateIfValid = () => {
+        let valid = validate();
+        if (valid) {
+            $("#submit-button").removeClass("disabled");
+            $("#submit-button").on("click", submitNewAccount);
+        } else {
+            $("#submit-button").addClass("disabled");
+            $("#submit-button").off();
+        }
+    };
+
+    form.on('input', "#username-input", updateIfValid);
+    form.on('input', "#password-input", updateIfValid);
+
+    $("#cancel-button").on("click", cleanUpModal);
+    modal.addClass("is-active");
+}
 
 async function getUserName() {
     let result = await $.ajax({
@@ -463,6 +557,29 @@ function createNewPost() {
                         "Authorization": "Bearer " + localStorage.getItem("apiKey")
                     }
                 });
+
+                let numberOfPosts = 0;
+                try {
+                    numberOfPosts = await axios.get("http://localhost:3000/public/numerOfPosts", {
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.getItem("apiKey")
+                        }
+                    });
+                    numberOfPosts = numberOfPosts.data.result.posts;
+                } catch (e) {
+
+                }
+
+
+                await axios.post("http://localhost:3000/public/numerOfPosts", {
+                    data: {
+                        posts: numberOfPosts + 1
+                    }
+                }, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("apiKey")
+                    }
+                })
             } else {
                 // TODO ERROR
             }
@@ -505,6 +622,7 @@ function generateDOMPost(postObject, index) {
               <header class="card-header">
                 <p class="card-header-title has-text-centered">${postObject.title}</p>
                 ${localStorage.getItem("userID") === postObject.author ? `<button class="delete" onclick="deletePost(${postObject.id})"></button>` : ``}
+                <button id="like-${index}" onclick="toggleLike(${localStorage.userID}, ${postObject.id}, 'like-${index}');">↑</button>
               </header>
               <div class="card-content">
                 <div class="content">
@@ -566,19 +684,22 @@ async function loadReccomendations(id, postID) {
             }
         });
         let results = reccomendations.data.result.simmilars;
-        console.log(results);
-        $("#reccomendations").empty();
-        for (let i = 0; i < results.length; i++) {
-            if (i % 2 !== 0 || results[i] == postID) {
-                continue;
-            }
-            let postInfo = await axios.get(`http://localhost:3000/private/posts/${results[i]}`, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+        if (results === "error") {
+            $("#reccomendations").empty();
+            return;
+        } else {
+            $("#reccomendations").empty();
+            for (let i = 0; i < results.length; i++) {
+                if (i % 2 !== 0 || results[i] == postID) {
+                    continue;
                 }
-            });
-            postInfo = postInfo.data.result;
-            let card = $(`
+                let postInfo = await axios.get(`http://localhost:3000/private/posts/${results[i]}`, {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+                    }
+                });
+                postInfo = postInfo.data.result;
+                let card = $(`
             <div id="post-${results[i]}" class="column hidden is-one-fifth" style="width: 100%">
             <div id="post-${results[i]}-card" class="card clickable">
               <header class="card-header">
@@ -593,25 +714,26 @@ async function loadReccomendations(id, postID) {
             </div>
         </div>
             `);
-            $("#reccomendations").append(card);
-            $(`#post-${results[i]}`).animate({opacity: 1});
-            card.on("click", `#post-${results[i]}-card`, function () {
-                transitionFromReccomendationToMain(postInfo.id, postInfo)
-            });
+                $("#reccomendations").append(card);
+                $(`#post-${results[i]}`).animate({opacity: 1});
+                card.on("click", `#post-${results[i]}-card`, function () {
+                    transitionFromReccomendationToMain(postInfo.id, postInfo)
+                });
+            }
         }
-    } catch (e) {
+    } catch
+        (e) {
         setTimeout(function () {
             loadReccomendations(id, postID);
         }, 1000);
     }
+
 }
 
 
 async function loadComments(postID) {
     $("#comments").empty();
     let comments = await getPostComments(postID);
-    console.log("this is comments");
-    console.log(comments);
     for (let i = 0; i < comments.length; i++) {
         let curComment = await axios.get(`http://localhost:3000/private/comments/${comments[i]}`, {
             headers: {"Authorization": `Bearer ${localStorage.getItem("apiKey")}`}
@@ -640,9 +762,12 @@ async function loadComments(postID) {
                                     <button id="new-comment-button" class="button">New Comment</button>
                                 </div>                             
                             `));
-    $("#comments").on("click", "#new-comment-button", async function () {
+
+
+    let tempFunc = async function () {
+        $("#new-comment-button").off();
         $("#comments").append($(`
-                                                                <form id="new-comment-form" class="form" onsubmit="return false;">                            
+                                                                <form id="new-comment-form" class="form hidden" onsubmit="return false;">                            
                                 <div class="field">
                                     <label class="label">What do you want to say?</label>
                                     <div class="control">
@@ -660,16 +785,20 @@ async function loadComments(postID) {
                                 </div>
                             </form>
                                 `));
+        $("#new-comment-form").animate({opacity: 1});
 
         $("#comments").on("click", "#comment-cancel", async function () {
+            $("#new-comment-button").on("click", tempFunc);
             $("#new-comment-form").remove();
         });
         $("#comments").on("click", "#comment-submit", async function () {
             await createNewComment($("#comment-content-input").val(), postID);
             $("#new-comment-form").remove();
-            loadComments(postID);
+            await loadComments(postID);
+            $("#new-comment-button").on("click", tempFunc);
         })
-    })
+    }
+    $("#comments").on("click", "#new-comment-button", tempFunc);
 }
 
 
@@ -872,16 +1001,29 @@ async function transitionFromReccomendationToMain(reccomendationID, postObject) 
     })
 }
 
+function logOUT() {
+
+    localStorage.apiKey = '';
+    localStorage.userID = '';
+    window.location.reload();
+}
 
 $(document).ready(async function () {
     $("#new-post-button").on("click", createNewPost);
     $("#search").on("input", debouncer(searchPosts, null, 500));
+    numberOfPosts = await axios.get("http://localhost:3000/public/numerOfPosts");
+    $("#number-of-posts").text(numberOfPosts.data.result.posts);
 
     // Load in the username or guest
     let isLoggedIn = localStorage.getItem("apiKey");
     if (isLoggedIn) {
         let innerTextGreeting = await getUserName();
         $("#username-greeting").text(innerTextGreeting);
+        $("#create-account-button-container").empty();
+        $("#create-account-button-container").append($(`
+            <button class="button" onclick="logOUT();">Logout</button>
+        `));
+        $("#create-account-button-container").show();
         loadContent();
     } else {
         let innerTextGreeting = `Guest${Math.floor(Math.random() * 1000)}`;
@@ -889,6 +1031,7 @@ $(document).ready(async function () {
 
         let createAccountButton = $("#create-account-button");
         createAccountButton.on("click", createAccountPopUp);
+        $("#login-button").on("click", loginPopUp);
 
         $("#create-account-button-container").show();
         $("#login-button-container").show();
