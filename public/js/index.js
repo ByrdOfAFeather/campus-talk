@@ -10,13 +10,14 @@ function debouncer(debouncee, debounceeArgs, time) {
     }
 }
 
-function searchPosts() {
+async function searchPosts() {
     let searchInput = $("#search").val();
-    axios.get("http://localhost:3000/private/posts", {
+    console.log("search input: " + searchInput);
+    let result = await axios.get("http://localhost:3000/private/posts", {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
         }
-    }).then(function (result) {
+    }).next(function temp(result) {
         let posts = result.data.result;
 
         let searchablePosts = [];
@@ -29,7 +30,9 @@ function searchPosts() {
 
         searchablePosts = searchablePosts.filter((post) => post.title.startsWith(searchInput));
         console.log(searchablePosts);
-    })
+        return searchablePosts;
+    });
+    //return [];
 }
 
 
@@ -722,7 +725,42 @@ async function transitionFromHomeToPost(postID, index, postObject) {
 
 $(document).ready(async function () {
     $("#new-post-button").on("click", createNewPost);
-    $("#search").on("input", debouncer(searchPosts, null, 500));
+    //$("#search").on("input", debouncer(searchPosts, null, 500));
+    $("#search").autocomplete({
+        source: function(request,response) {
+            response(searchPostsAltered(request.term));
+        },
+
+    });
+
+    $("#search").on("input", async function() {
+
+        if(document.getElementById("#auto-complete-home")== null) {
+            let autoCompleteHome = document.createElement("div");
+            autoCompleteHome.className = "columns is-centered is-vcentered";
+            autoCompleteHome.id = "auto-complete-home";
+            document.getElementById("search-results-attach").appendChild(autoCompleteHome);
+        }
+
+        let postsToDisplay = await searchPosts();
+        console.log("posts: " + postsToDisplay);
+
+        setTimeout(function() {
+            console.log("posts: " + postsToDisplay)
+        },5000);
+
+
+
+
+
+    });
+
+
+
+
+    //     //delay: 500,
+    //     source: searchHelper
+
 
     // Load in the username or guest
     let isLoggedIn = localStorage.getItem("apiKey");
@@ -741,3 +779,52 @@ $(document).ready(async function () {
         $("#login-button-container").show();
     }
 });
+
+
+// function searchHelper() {
+//     let pertinentInfo = []; // https://stackoverflow.com/questions/46986710/return-multiple-values-from-es6-map-function/46986771
+//     let searchablePosts =  searchPosts();
+//     searchablePosts.then(console.log("reached inside"));
+//     console.log("searchable posts" + searchablePosts.data);
+//
+//     for (let i = 0; i<searchablePosts.length; i++) {
+//         pertinentInfo.push( {
+//             label: searchablePosts[i]['title'],
+//             value: searchablePosts[i]['id']
+//         });
+//     }
+//     return pertinentInfo;
+// }
+//
+//
+//
+function searchPostsAltered(searchInput) {
+    console.log("search input: " + searchInput);
+    axios.get("http://localhost:3000/private/posts", {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+        }
+    }).then(function (result) {
+        let posts = result.data.result;
+
+        let searchablePosts = [];
+        let keys = Object.keys(posts);
+        for (let i = 0; i < keys.length; i++) {
+            let pushable = posts[keys[i]];
+            pushable.id = keys[i];
+            searchablePosts.push(pushable);
+        }
+
+        searchablePosts = searchablePosts.filter((post) => post.title.toLowerCase().startsWith(searchInput.toLowerCase()));
+        console.log(searchablePosts);
+        let filteredPosts = searchablePosts.map((post) => {
+            var currentObj = {
+                label: post.title,
+                value: post.id
+            }
+            return currentObj;
+        });
+        console.log(filteredPosts);
+        return filteredPosts;
+    });
+}

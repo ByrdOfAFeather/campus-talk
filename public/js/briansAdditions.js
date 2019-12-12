@@ -1,7 +1,7 @@
 
 async function getUser(userID) {  // get a specific user's data
     try {
-        let res = await axios.get('http://localhost:3000/account/status', {headers:{"Authorization": "Bearer " + localStorage.getItem("apiKey") }});
+        let res =  axios.get('http://localhost:3000/account/status', {headers:{"Authorization": "Bearer " + localStorage.getItem("apiKey") }});
         return res.data;
         //TODO:
     } catch (error) {
@@ -36,12 +36,10 @@ async function toggleLike(currentUserID, contentID) {   // if the logged in user
                     postsUsersWhoLiked.splice(i, i + 1);
                 }
             }
-
             await axios.post(`http://localhost:3000/private/users/${localStorage.getItem("userID")}/likedPosts`, {
                 'data': usersLikedPosts,
             }, {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("apiKey")
+                headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")
                 }
             });
             await axios.post(`http://localhost:3000/private/posts/${contentID}/usersWhoLikedThePost`, {
@@ -115,5 +113,9 @@ async function editComment(userID, commentID, newBody) {
             "Authorization": "Bearer " + localStorage.getItem("apiKey")
         },
     });
+
+}
+
+function searchDisplay() {
 
 }

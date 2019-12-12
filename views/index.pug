@@ -4,6 +4,7 @@ head
     link(rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css')
     link(rel='stylesheet' type='text/css' href='css/index.css')
     script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+    script(type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js")
     script(src="//cdn.jsdelivr.net/jquery.shadow-animation/1/mainfile")
     script(type="text/javascript" src="js/index.js")
@@ -47,9 +48,9 @@ section.section#all-posts
                 #random-posts-container.columns
 
     section.section
-        .container
+        .container#search-results-attach
             .columns.is-centered.is-vcentered
-                .column.is-narrow
+                .column.is-centered
                     input.input#search
 
     section.section
