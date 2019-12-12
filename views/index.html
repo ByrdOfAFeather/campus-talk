@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Campus Talk</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="public/css/index.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.shadow-animation/1/mainfile"></script>
+    <script type="text/javascript" src="public/js/theOlBrianSideCode.js"></script>
+    <script type="text/javascript" src="public/js/index.js"></script>
+</head>
+<div class="modal" id="generic-input-modal">
+    <div class="modal-background" id="generic-input-modal-background"></div>
+    <div class="modal-content" id="generic-input-modal-content">
+        <div class="container" id="modal-content-container"></div>
+    </div>
+</div>
+<section class="section">
+    <div class="container" id="focused-post-container"></div>
+</section>
+<section class="section"></section>
+<section class="section" id="all-posts">
+    <!-- Title Section-->
+    <div class="container">
+        <div class="columns is-centered is-vcentered is-multiline">
+            <div class="column is-12 has-text-centered">
+                <h1 class="title">Campus - Talk</h1>
+            </div>
+            <div class="column has-text-centered">
+                <h2 class="subtitle">The anonymous chat platform with</h2>
+                <h2 class="subtitle" id="number-of-posts"></h2>
+                <h2 class="subtitle">posts</h2>
+            </div>
+        </div>
+    </div>
+    <!-- Categories section-->
+    <div class="container">
+        <div class="columns is-multiline is-centered is-vcentered">
+            <div class="column is-12 has-text-centered">
+                <p class="has-text-gray is-italic">What would you look at today,</p>
+                <div class="columns is-centered is-vcentered has-text-centered">
+                    <div class="column is-narrow has-text-centered">
+                        <p class="is-italic" id="username-greeting"></p>
+                    </div>
+                    <div class="column is-narrow gone" id="create-account-button-container"><button class="button" id="create-account-button">Create Account</button></div>
+                    <div class="column is-narrow gone" id="login-button-container"><button class="button" id="login-button">Login</button></div>
+                </div>
+            </div>
+            <div class="column has-text-centered">
+                <div class="columns" id="random-posts-container"></div>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered is-vcentered">
+                <div class="column is-narrow"><input class="input" id="search"></div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered is-vcentered">
+                <div class="column has-text-centered"><button class="button" id="new-post-button">Create New Post</button></div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container gone" id="new-post-container"></div>
+    </section>
+</section>
+<script type="text/javascript" src="js/animations.js"></script>

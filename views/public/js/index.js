@@ -106,10 +106,13 @@ function createAccountPopUp() {
                         name: usernameInput.val(),
                         pass: passwordInput.val(),
                     },
-                    success: function (result) {
-                        window.localStorage.setItem("apiKey", result.jwt);
+                    success: async function (result) {
                         let id = Math.floor(Math.random() * 100000);
+
+
+                        window.localStorage.setItem("apiKey", result.jwt);
                         window.localStorage.setItem("userID", id);
+
                         axios.post(`http://localhost:3000/private/users/${id}`, {
                             data: {
                                 username: usernameInput.val(),
@@ -122,7 +125,19 @@ function createAccountPopUp() {
                             headers: {
                                 "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
                             },
-                        }).then((_) => {
+                        }).then(async function(_) {
+                            try {
+                            let okay = await axios.post(`http://localhost:3000/user/email/`, {
+                                data: {
+                                    email: emailInput.val()
+                                }
+                            }, {
+                                headers: {
+                                    "Authorization": `Bearer ${localStorage.getItem("apiKey")}`
+                                }
+                            });} catch (e) {
+                                console.log(e.error)
+                            }
                             window.location.reload();
                         });
                     },
@@ -144,6 +159,7 @@ function createAccountPopUp() {
     let updateIfValid = () => {
         let valid = validate();
         if (valid) {
+            $("#submit-button").off();
             $("#submit-button").removeClass("disabled");
             $("#submit-button").on("click", submitNewAccount);
         } else {
@@ -622,7 +638,15 @@ function generateDOMPost(postObject, index) {
               <header class="card-header">
                 <p class="card-header-title has-text-centered">${postObject.title}</p>
                 ${localStorage.getItem("userID") === postObject.author ? `<button class="delete" onclick="deletePost(${postObject.id})"></button>` : ``}
-                <button id="like-${index}" onclick="toggleLike(${localStorage.userID}, ${postObject.id}, 'like-${index}');">↑</button>
+                <div class="columns is-gapless">
+                    <div class="column is-narrow">
+                        <button id="like-${index}" onclick="toggleLike(${localStorage.userID}, ${postObject.id}, '${index}');">↑</button>
+                    </div>
+                    <div class="column is-narrow">
+                        <p id="increment-me-${index}">${postObject.usersWhoLikedThePost.length}</p>
+                    </div>
+                </div>
+                
               </header>
               <div class="card-content">
                 <div class="content">
@@ -705,6 +729,14 @@ async function loadReccomendations(id, postID) {
               <header class="card-header">
                 <p class="card-header-title has-text-centered">${postInfo.title}</p>
                 ${localStorage.getItem("userID") === postInfo.author ? `<button class="delete" onclick="deletePost(${postInfo.id})"></button>` : ``}
+                <div class="columns is-gapless">
+                    <div class="column is-narrow">
+                        <button id="like-${results[i]}" onclick="toggleLike(${localStorage.userID}, ${postInfo.id}, '${results[i]}');">↑</button>
+                    </div>
+                    <div class="column is-narrow">
+                        <p id="increment-me-${results[i]}">${postInfo.usersWhoLikedThePost.length}</p>
+                    </div>
+                </div>
               </header>
               <div class="card-content">
                 <div class="content">
@@ -832,7 +864,7 @@ async function transitionFromHomeToPost(postID, index, postObject) {
                         }, 2000);
                         let okay = $(`
         <div id="hidden-columns" class="columns hidden">
-            <div class="column">.
+            <div class="column">
                 <div class="columns is-multiline">
                     <div class="column is-12">
                         ${newPost.html()}
@@ -1011,8 +1043,15 @@ function logOUT() {
 $(document).ready(async function () {
     $("#new-post-button").on("click", createNewPost);
     $("#search").on("input", debouncer(searchPosts, null, 500));
-    numberOfPosts = await axios.get("http://localhost:3000/public/numerOfPosts");
-    $("#number-of-posts").text(numberOfPosts.data.result.posts);
+
+    try {
+        numberOfPosts = await axios.get("http://localhost:3000/public/numerOfPosts");
+        $("#number-of-posts").text(numberOfPosts.data.result.posts);
+
+    } catch (e) {
+        $("#number-of-posts").text(0);
+
+    }
 
     // Load in the username or guest
     let isLoggedIn = localStorage.getItem("apiKey");

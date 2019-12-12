@@ -3,12 +3,32 @@
   <component name="ChangeListManager">
     <list default="true" id="23a2d7f6-1d78-4dbf-b785-17f6c63e82b6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/account.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/account.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/private.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/private.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/public.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/public.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/recommender.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/recommender.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/DataStore.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/account.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/private.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/public.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/user.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/filters/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/modify_user_path.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/parse_delete.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/parse_get.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/parse_post.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/parse_utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/public/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/animations.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/public/js/animations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/public/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/private.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/public.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/recommender.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +51,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/public/js/index.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/views/public/js/index.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1SvZZwn2l30iOv225MMaHUXrNNs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -50,6 +70,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\matth\Documents\Test\comp426-backend\views" />
+      <recent name="C:\Users\matth\Documents\Test\comp426-backend\server" />
       <recent name="$PROJECT_DIR$/public/css" />
     </key>
   </component>
@@ -164,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576111500854</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Login Logout Post Counter">
+      <created>1576115721292</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1576115721292</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,7 +221,8 @@
     <MESSAGE value="Debouncing and Search" />
     <MESSAGE value="Reccomendations actually show up as well as comments" />
     <MESSAGE value="Okay, now that's what I call animations." />
-    <option name="LAST_COMMIT_MESSAGE" value="Okay, now that's what I call animations." />
+    <MESSAGE value="Login Logout Post Counter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login Logout Post Counter" />
   </component>
   <component name="WindowStateProjectService">
     <state x="618" y="270" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1575425853662">
@@ -203,12 +233,12 @@
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="771" y="261" width="424" height="582" key="#com.intellij.ide.macro.MacrosDialog/56.27.1864.1053@56.27.1864.1053" timestamp="1575131428665" />
-    <state x="756" y="37" width="1101" height="978" key="CommitChangelistDialog2" timestamp="1576111500285">
+    <state x="756" y="37" width="1101" height="978" key="CommitChangelistDialog2" timestamp="1576115720694">
       <screen x="62" y="0" width="2498" height="1080" />
     </state>
     <state x="2728" y="63" width="989" height="978" key="CommitChangelistDialog2/0.27.4480.1053@0.27.4480.1053" timestamp="1575258184887" />
     <state x="574" y="63" width="1101" height="978" key="CommitChangelistDialog2/56.27.1864.1053@56.27.1864.1053" timestamp="1575425961191" />
-    <state x="756" y="37" key="CommitChangelistDialog2/62.0.2498.1080@62.0.2498.1080" timestamp="1576111500285" />
+    <state x="756" y="37" key="CommitChangelistDialog2/62.0.2498.1080@62.0.2498.1080" timestamp="1576115720694" />
     <state width="1841" height="378" key="GridCell.Tab.0.bottom" timestamp="1575131521930">
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
@@ -230,12 +260,12 @@
     </state>
     <state x="898" y="188" key="SettingsEditor/0.27.4480.1053@0.27.4480.1053" timestamp="1575678600029" />
     <state x="477" y="188" key="SettingsEditor/56.27.1864.1053@56.27.1864.1053" timestamp="1575672163926" />
-    <state x="1637" y="265" width="517" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576111503246">
+    <state x="1637" y="265" width="517" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576115729571">
       <screen x="62" y="0" width="2498" height="1080" />
     </state>
     <state x="2823" y="285" width="800" height="534" key="Vcs.Push.Dialog.v2/0.27.4480.1053@0.27.4480.1053" timestamp="1575258187528" />
     <state x="1231" y="285" width="517" height="528" key="Vcs.Push.Dialog.v2/56.27.1864.1053@56.27.1864.1053" timestamp="1575425962981" />
-    <state x="1637" y="265" key="Vcs.Push.Dialog.v2/62.0.2498.1080@62.0.2498.1080" timestamp="1576111503246" />
+    <state x="1637" y="265" key="Vcs.Push.Dialog.v2/62.0.2498.1080@62.0.2498.1080" timestamp="1576115729571" />
     <state x="626" y="133" width="724" height="840" key="find.popup" timestamp="1575220225932">
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
@@ -248,11 +278,11 @@
       <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="880" y="423" width="550" height="375" key="jetbrains.nodejs.interpreters-dialog/56.27.1864.1053@56.27.1864.1053" timestamp="1575131467491" />
-    <state x="859" y="238" width="902" height="696" key="search.everywhere.popup" timestamp="1576115314389">
+    <state x="859" y="238" width="902" height="696" key="search.everywhere.popup" timestamp="1576116770782">
       <screen x="62" y="0" width="2498" height="1080" />
     </state>
     <state x="1430" y="259" width="1616" height="678" key="search.everywhere.popup/0.27.4480.1053@0.27.4480.1053" timestamp="1575679406098" />
     <state x="651" y="259" width="672" height="678" key="search.everywhere.popup/56.27.1864.1053@56.27.1864.1053" timestamp="1575586318037" />
-    <state x="859" y="238" width="902" height="696" key="search.everywhere.popup/62.0.2498.1080@62.0.2498.1080" timestamp="1576115314389" />
+    <state x="859" y="238" width="902" height="696" key="search.everywhere.popup/62.0.2498.1080@62.0.2498.1080" timestamp="1576116770782" />
   </component>
 </project>
