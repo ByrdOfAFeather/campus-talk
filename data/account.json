@@ -2,6 +2,9 @@
   "users": {
     "this is a test": {
       "passwordHash": "$2b$10$gHBfj1lWepgNAct4fL0P6OsVx7160xhGSSqiGoKkI4neg1KqkJMw2"
+    },
+    "this is a new account": {
+      "passwordHash": "$2b$10$atnZb1xUPZ88ASpTmJTh9O7KRw0kIuG/u0IlWnTwRLPHRCjnKeURa"
     }
   }
 }

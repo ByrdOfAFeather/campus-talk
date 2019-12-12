@@ -218,7 +218,7 @@ async function getCommentObjectsFromUser(userID) {
     return commentObjects;
 }
 
-async function deleteComment(commentID) {
+async function deleteComment(commentID, postID) {
     let commentObjectRequest = await axios.get(`http://localhost:3000/private/comments/${commentID}`, {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
     let commentObject = commentObjectRequest.data.result;
 
@@ -271,6 +271,7 @@ async function deleteComment(commentID) {
 
     let deleteRequest = await axios.delete(`http://localhost:3000/private/comments/${commentID}`,
         {headers: {"Authorization": "Bearer " + localStorage.getItem("apiKey")}});
+    loadComments(postID);
 }
 
 async function deleteCommentsFromPost(commentIDs) {
@@ -342,10 +343,7 @@ async function deletePost(postID) {
     loadContent();
 }
 
-async function createNewComment() {
-    //TODO ACTUALLY GET INPUT
-    let postID = 30969;
-    let comment = "This is a comment";
+async function createNewComment(comment, postID) {
     let id = Math.floor(Math.random() * 100000);
 
     let result = await axios.post(`http://localhost:3000/private/comments/${id}/`, {
@@ -569,6 +567,7 @@ async function loadReccomendations(id, postID) {
         });
         let results = reccomendations.data.result.simmilars;
         console.log(results);
+        $("#reccomendations").empty();
         for (let i = 0; i < results.length; i++) {
             if (i % 2 !== 0 || results[i] == postID) {
                 continue;
@@ -597,12 +596,10 @@ async function loadReccomendations(id, postID) {
             $("#reccomendations").append(card);
             $(`#post-${results[i]}`).animate({opacity: 1});
             card.on("click", `#post-${results[i]}-card`, function () {
-                transitionFromHomeToPost(postInfo.id, i, postInfo[i])
+                transitionFromReccomendationToMain(postInfo.id, postInfo)
             });
         }
-    }
-
-    catch (e) {
+    } catch (e) {
         setTimeout(function () {
             loadReccomendations(id, postID);
         }, 1000);
@@ -610,37 +607,103 @@ async function loadReccomendations(id, postID) {
 }
 
 
+async function loadComments(postID) {
+    $("#comments").empty();
+    let comments = await getPostComments(postID);
+    console.log("this is comments");
+    console.log(comments);
+    for (let i = 0; i < comments.length; i++) {
+        let curComment = await axios.get(`http://localhost:3000/private/comments/${comments[i]}`, {
+            headers: {"Authorization": `Bearer ${localStorage.getItem("apiKey")}`}
+        });
+        curComment = curComment.data.result;
+
+        let domComment = $(`<div id="comment-${comments[i]}" class="column hidden is-one-fifth" style="width: 100%">
+                                    <div id="comment-${comments[i]}-card" class="card">
+                                    <div class="card-content">
+                                    <div class="content">
+                                    ${/**curComment.comment.length > 35**/ false ? curComment.comment.slice(0, 35) + "..." : curComment.comment}
+                                    ${localStorage.getItem("userID") === curComment.author ? `<button class="delete" onclick="deleteComment(${comments[i]}, ${postID});"></button>` : ``}
+
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>`);
+        $("#comments").append(domComment);
+        $(`#comment-${comments[i]}`).animate({opacity: 1});
+    }
+
+    $("#comments").off();
+
+    $("#comments").append($(`   
+                                <div class="column is-12">
+                                    <button id="new-comment-button" class="button">New Comment</button>
+                                </div>                             
+                            `));
+    $("#comments").on("click", "#new-comment-button", async function () {
+        $("#comments").append($(`
+                                                                <form id="new-comment-form" class="form" onsubmit="return false;">                            
+                                <div class="field">
+                                    <label class="label">What do you want to say?</label>
+                                    <div class="control">
+                                        <textarea id="comment-content-input" class="textarea"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="level">
+                                    <div class="level-left">
+                                        <button id="comment-cancel" class="button">Cancel</button>
+                                    </div>
+                                    <div class="level-right">
+                                        <button id="comment-submit" class="button">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                                `));
+
+        $("#comments").on("click", "#comment-cancel", async function () {
+            $("#new-comment-form").remove();
+        });
+        $("#comments").on("click", "#comment-submit", async function () {
+            await createNewComment($("#comment-content-input").val(), postID);
+            $("#new-comment-form").remove();
+            loadComments(postID);
+        })
+    })
+}
+
+
 async function transitionFromHomeToPost(postID, index, postObject) {
     let currentPost = $(`#post-${index}`);
     for (let i = 0; i < 5; i++) {
-        if (i === 4 && i !== index) {
+        if ((i === 4 && index !== 4) || (index == 4 && i === 3)) {
             $(`#post-${i}`).animate({opacity: 0}, 500, function () {
-                let rect = currentPost.get(0).getBoundingClientRect();
-                let parentRect = document.getElementById("random-posts-container").getBoundingClientRect();
-                let newPost = currentPost.clone();
-                newPost.css("left", rect.left);
-                newPost.css("width", currentPost.css("width"));
-                newPost.css("height", currentPost.css("height"));
-                newPost.css("top", rect.top);
+                    let rect = currentPost.get(0).getBoundingClientRect();
+                    let parentRect = document.getElementById("random-posts-container").getBoundingClientRect();
+                    let newPost = currentPost.clone();
+                    newPost.css("left", rect.left);
+                    newPost.css("width", currentPost.css("width"));
+                    newPost.css("height", currentPost.css("height"));
+                    newPost.css("top", rect.top);
 
-                newPost.css("position", "absolute");
-                $(document.body).append(newPost);
+                    newPost.css("position", "absolute");
+                    $(document.body).append(newPost);
 
-                currentPost.css("position", "absolute");
-                currentPost.css("opacity", 0);
-                $("#all-posts").fadeOut(300, async function () {
-                    newPost.removeClass("clickable");
-                    newPost.trigger("blur");
-                    newPost.find(".delete").remove();
-                    newPost.css("padding", "0px");
-                    let id = await getReccomendations(postObject);
-                    id = id.data.id;
-                    setTimeout(function () {
-                        loadReccomendations(id, postID);
-                    }, 2000);
-                    let okay = $(`
+                    currentPost.css("position", "absolute");
+                    currentPost.css("opacity", 0);
+                    $("#all-posts").fadeOut(300, async function () {
+                        newPost.removeClass("clickable");
+                        newPost.trigger("blur");
+                        newPost.find(".delete").remove();
+                        newPost.css("padding", "0px");
+                        let id = await getReccomendations(postObject);
+                        id = id.data.id;
+                        setTimeout(function () {
+                            loadReccomendations(id, postID);
+                        }, 2000);
+                        let okay = $(`
         <div id="hidden-columns" class="columns hidden">
-            <div class="column">
+            <div class="column">.
                 <div class="columns is-multiline">
                     <div class="column is-12">
                         ${newPost.html()}
@@ -648,23 +711,6 @@ async function transitionFromHomeToPost(postID, index, postObject) {
                     <div class="column">
                         <div id="comments" class="columns is-multiline">
                             <!-- {{ all comments }} -->
-<!--                            <form id="new-comment-form" class="form" onsubmit="return false;">                            -->
-<!--                                <div class="field">-->
-<!--                                    <label class="label">What do you want to say?</label>-->
-<!--                                    <div class="control">-->
-<!--                                        <textarea id="comment-content-input" class="textarea"></textarea>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                -->
-<!--                                <div class="level">-->
-<!--                                    <div class="level-left">-->
-<!--                                        <button id="comment-cancel" class="button">Cancel</button>-->
-<!--                                    </div>-->
-<!--                                    <div class="level-right">-->
-<!--                                        <button id="comment-submit" class="button">Submit</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </form>-->
                         </div>
                     </div>
                 </div>
@@ -673,50 +719,157 @@ async function transitionFromHomeToPost(postID, index, postObject) {
                 <!-- {{ reccomendation posts }} --> 
             </div>
         </div>`);
-                    $("#focused-post-container").append(okay);
-                    okay.find(".card-content").get(0).innerHTML = `${postObject.content}`;
-                    let cardID = newPost.attr("id");
-                    newPost.attr("id", "empty");
+                        let cardID = newPost.attr("id");
+                        okay.on("click", `#${cardID}-card`, function () {
+                            let recentPostContainer = $("#random-posts-container");
+                            recentPostContainer.empty();
+                            $("#focused-post-container").slideUp(750, function () {
+
+                                $("#all-posts").slideDown(750, function () {
+                                    loadContent();
+                                    $("#focused-post-container").empty();
+                                })
+                            })
+                        });
+                        $("#focused-post-container").css("display", "");
+                        $("#focused-post-container").append(okay);
+
+                        for (let i = 0; i < 4; i++) {
+                            let tempCard = $(`
+                            <div class="column is-one-fifth" style="width: 100%">
+                            <div class="card clickable">
+                              <header class="card-header">
+                                <p class="card-header-title has-text-centered">.................</p>
+                              </header>
+                              <div class="card-content">
+                                <div class="content">
+                                ............
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        `);
+
+                            $("#reccomendations").append(tempCard);
+                        }
+                        okay.find(".card-content").get(0).innerHTML = `${postObject.content}`;
+                        newPost.attr("id", "empty");
 
 
-                    let focusedRect = $(`#${cardID}-card`).get(0).getBoundingClientRect();
+                        let focusedRect = $(`#${cardID}-card`).get(0).getBoundingClientRect();
 
-                    console.log(focusedRect);
-                    newPost.animate({left: focusedRect.left, top: focusedRect.top}, 750, function () {
-                        newPost.find(".card-content").get(0).innerHTML = `${postObject.content}`;
-                        newPost.animate({width: $(`#${cardID}-card`).css("width")}, async function () {
-                            $(`#hidden-columns`).removeClass("hidden");
-                            newPost.remove();
-
-                            let comments = await getPostComments(postID);
-                            console.log(comments);
-                            for (let i = 0; i < comments.length; i++) {
-                                let curComment = await axios.get(`http://localhost:3000/private/comments/${comments[i]}`, {
-                                    headers: {"Authorization": `Bearer ${localStorage.getItem("apiKey")}`}
-                                });
-                                curComment = curComment.data.result;
-
-                                let domComment = $(`<div id="comment-${curComment.id}" class="column hidden is-one-fifth" style="width: 100%">
-                                    <div id="comment-${curComment.id}-card" class="card clickable">
-                                    <div class="card-content">
-                                    <div class="content">
-                                    ${curComment.comment.length > 35 ? curComment.comment.slice(0, 35) + "..." : curComment.comment}
-                                    </div>
-                                    </div>
-                                    </div>
-                                    </div>`);
-                                $("#comments").append(domComment);
-
-                                $(`#comment-${comments[i].id}`).animate({opacity: 1});
-                            }
+                        newPost.animate({left: focusedRect.left, top: focusedRect.top}, 750, function () {
+                            newPost.find(".card-content").get(0).innerHTML = `${postObject.content}`;
+                            newPost.animate({width: $(`#${cardID}-card`).css("width")}, async function () {
+                                $(`#hidden-columns`).removeClass("hidden");
+                                newPost.remove();
+                                console.log(cardID + "-card");
+                                loadComments(postID);
+                            });
                         });
                     });
-                });
-            });
+                }
+            );
         } else if (i !== index) {
             $(`#post-${i}`).animate({opacity: 0}, 500);
         }
     }
+}
+
+
+async function transitionFromReccomendationToMain(reccomendationID, postObject) {
+    console.log(reccomendationID);
+    let currentPost = $(`#post-${reccomendationID}`);
+    let rect = currentPost.get(0).getBoundingClientRect();
+    let parentRect = document.getElementById("focused-post-container").getBoundingClientRect();
+    let newPost = currentPost.clone();
+    newPost.css("left", rect.left);
+    newPost.css("width", currentPost.css("width"));
+    newPost.css("height", currentPost.css("height"));
+    newPost.css("top", rect.top);
+
+    newPost.css("position", "absolute");
+    $(document.body).append(newPost);
+
+    $("#focused-post-container").slideUp(750, async function () {
+        $("#focused-post-container").empty();
+        $("#focused-post-container").css("display", "");
+        newPost.removeClass("clickable");
+        newPost.trigger("blur");
+        newPost.find(".delete").remove();
+        newPost.css("padding", "0px");
+        let id = await getReccomendations(postObject);
+        id = id.data.id;
+        setTimeout(function () {
+            loadReccomendations(id, postObject.id);
+        }, 2000);
+        let okay = $(`
+        <div id="hidden-columns" class="columns hidden">
+            <div class="column">.
+                <div class="columns is-multiline">
+                    <div class="column is-12">
+                        ${newPost.html()}
+                    </div>
+                    <div class="column">
+                        <div id="comments" class="columns is-multiline">
+                            <!-- {{ all comments }} -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="reccomendations" class="column is-narrow">
+                <!-- {{ reccomendation posts }} --> 
+            </div>
+        </div>`);
+        let cardID = newPost.attr("id");
+        okay.on("click", `#${cardID}-card`, function () {
+            let recentPostContainer = $("#random-posts-container");
+            recentPostContainer.empty();
+            $("#focused-post-container").slideUp(750, function () {
+
+                $("#all-posts").slideDown(750, function () {
+                    loadContent();
+                    $("#focused-post-container").empty();
+                })
+            })
+        });
+        $("#focused-post-container").css("display", "");
+        $("#focused-post-container").append(okay);
+
+        for (let i = 0; i < 4; i++) {
+            let tempCard = $(`
+                            <div class="column is-one-fifth" style="width: 100%">
+                            <div class="card clickable">
+                              <header class="card-header">
+                                <p class="card-header-title has-text-centered">.................</p>
+                              </header>
+                              <div class="card-content">
+                                <div class="content">
+                                ............
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        `);
+
+            $("#reccomendations").append(tempCard);
+        }
+        okay.find(".card-content").get(0).innerHTML = `${postObject.content}`;
+        newPost.attr("id", "empty");
+
+
+        let focusedRect = $(`#${cardID}-card`).get(0).getBoundingClientRect();
+
+        newPost.animate({left: focusedRect.left, top: focusedRect.top}, 750, function () {
+            newPost.find(".card-content").get(0).innerHTML = `${postObject.content}`;
+            newPost.animate({width: $(`#${cardID}-card`).css("width")}, async function () {
+                $(`#hidden-columns`).removeClass("hidden");
+                newPost.remove();
+                console.log(cardID + "-card");
+                loadComments(postObject.id);
+            });
+        });
+    })
 }
 
 
